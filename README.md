@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/jonaaix/laravel-error-audit">
-    <img src="https://jonaaix.github.io/laravel-error-audit/logo.svg" alt="Laravel Error Audit Logo" width="120">
+    <img src="https://raw.githubusercontent.com/jonaaix/laravel-error-audit/main/docs/public/logo.svg" alt="Laravel Error Audit Logo" width="120">
   </a>
 </p>
 
