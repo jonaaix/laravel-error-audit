@@ -54,7 +54,15 @@ class SourceContext
 
    private function read(string $relative): ?string
    {
-      $base = rtrim($this->basePath, DIRECTORY_SEPARATOR);
+      // Canonicalise the base as well: base_path() may sit behind a symlink
+      // (macOS temp dirs, "current" symlinks in atomic deployments), and the
+      // prefix check below compares resolved against unresolved paths otherwise.
+      $base = realpath(rtrim($this->basePath, DIRECTORY_SEPARATOR));
+
+      if ($base === false) {
+         return null;
+      }
+
       $real = realpath($base.DIRECTORY_SEPARATOR.$relative);
 
       if ($real === false || ! str_starts_with($real, $base.DIRECTORY_SEPARATOR)) {
