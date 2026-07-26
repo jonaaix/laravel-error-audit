@@ -24,7 +24,7 @@ composer require aaix/laravel-error-audit
 ## What lands in your inbox
 
 <a href="/laravel-error-audit/audit-mail.png" target="_blank" rel="noreferrer">
-  <img src="/laravel-error-audit/audit-mail.png" alt="The daily error audit email" width="240" style="float: right; width: 240px; margin: 0.25rem 0 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);" />
+  <img src="/audit-mail.png" alt="The daily error audit email" width="240" style="float: right; width: 240px; margin: 0.25rem 0 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);" />
 </a>
 
 **A status word and four numbers.** Errors and warnings with their change since
