@@ -2,6 +2,14 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- Default `ai.max_input_tokens` corrected from 500000 to the intended 40000.
+  The cumulative per-run input budget now matches the code fallback; with the
+  default 20k per-issue cap, two maximally sized issues fill the window.
+
 ## [1.0.0] - 2026-07-26
 
 ### Added

@@ -81,7 +81,7 @@ return [
       'timeout' => 120,
 
       'max_issues_per_run' => 15,
-      'max_input_tokens' => 500000,
+      'max_input_tokens' => 40000,
       'max_tokens_per_issue' => 20000,
       'samples_per_issue' => 1,
       'max_sample_characters' => null,
