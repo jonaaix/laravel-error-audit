@@ -1,0 +1,17 @@
+{
+   "name": "laravel-error-audit-docs",
+   "private": true,
+   "type": "module",
+   "scripts": {
+      "docs:dev": "vitepress dev",
+      "docs:build": "vitepress build",
+      "docs:preview": "vitepress preview"
+   },
+   "devDependencies": {
+      "esbuild": "0.21.5",
+      "vitepress": "^1.6.3"
+   },
+   "overrides": {
+      "esbuild": "0.21.5"
+   }
+}

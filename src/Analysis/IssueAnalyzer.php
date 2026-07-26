@@ -1,0 +1,127 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Aaix\LaravelErrorAudit\Analysis;
+
+use Aaix\LaravelErrorAudit\Agents\ErrorAuditAgent;
+use Aaix\LaravelErrorAudit\Data\AuditedIssue;
+use Aaix\LaravelErrorAudit\Data\IssueAssessment;
+use Aaix\LaravelErrorAudit\Data\IssueGroup;
+use Aaix\LaravelErrorAudit\ErrorAudit;
+use Illuminate\Support\Carbon;
+use Psr\Log\LoggerInterface;
+use Throwable;
+
+class IssueAnalyzer
+{
+   public function __construct(
+      private readonly IssuePayloadBuilder $payloadBuilder,
+      private readonly AssessmentStore $store,
+      private readonly ErrorAudit $errorAudit,
+      private readonly LoggerInterface $logger,
+   ) {}
+
+   /**
+    * @param  list<IssueGroup>  $groups  Ordered by frequency, most frequent first.
+    */
+   public function analyse(array $groups, string $periodDescription, bool $refresh = false): AnalysisResult
+   {
+      $budget = new AnalysisBudget(
+         maxIssues: (int) $this->errorAudit->value('ai.max_issues_per_run', 15),
+         maxInputTokens: (int) $this->errorAudit->value('ai.max_input_tokens', 40000),
+      );
+
+      $groups = $this->errorAudit->applyIssueFilters($groups);
+
+      $agent = new ErrorAuditAgent;
+      $analysedCount = 0;
+      $issues = [];
+
+      foreach ($groups as $group) {
+         $known = $this->store->find($group->fingerprint);
+         $assessment = $refresh ? null : $this->store->assessmentFor($group->fingerprint);
+         $firstSeen = $this->store->firstSeen($group->fingerprint);
+
+         if ($assessment === null && $this->aiEnabled()) {
+            $payload = $this->payloadBuilder->build($group, $periodDescription);
+
+            if ($budget->allows($this->payloadBuilder->estimateTokens($payload))) {
+               $assessment = $this->assess($agent, $payload);
+
+               if ($assessment !== null) {
+                  $analysedCount++;
+                  $budget->consume($this->payloadBuilder->estimateTokens($payload));
+               }
+            }
+         }
+
+         $issues[] = new AuditedIssue(
+            group: $group,
+            assessment: $assessment,
+            isNew: $known === null,
+            previousCount: isset($known['last_count']) ? (int) $known['last_count'] : null,
+            daysOpen: $firstSeen !== null ? (int) $firstSeen->diffInDays(Carbon::now()) : 0,
+         );
+
+         $this->store->remember(
+            $group,
+            $assessment,
+            $agent->lastCost()?->model,
+            $agent->lastCost()?->totalCostUsd,
+         );
+      }
+
+      $issues = $this->sortByUrgency($issues);
+
+      return new AnalysisResult(
+         issues: $issues,
+         analysedCount: $analysedCount,
+         costUsd: $agent->totalCostUsd(),
+         model: $agent->lastCost()?->model,
+      );
+   }
+
+   private function assess(ErrorAuditAgent $agent, string $payload): ?IssueAssessment
+   {
+      try {
+         $response = $agent->prompt(
+            $payload,
+            provider: $this->errorAudit->value('ai.provider'),
+            model: $this->errorAudit->value('ai.model'),
+            timeout: (int) $this->errorAudit->value('ai.timeout', 120),
+         );
+
+         $decoded = json_decode($response->text, true, flags: JSON_THROW_ON_ERROR);
+
+         return is_array($decoded) ? IssueAssessment::fromArray($decoded) : null;
+      } catch (Throwable $exception) {
+         $this->logger->warning('Error audit: issue analysis failed.', [
+            'exception' => $exception->getMessage(),
+         ]);
+
+         return null;
+      }
+   }
+
+   /**
+    * @param  list<AuditedIssue>  $issues
+    * @return list<AuditedIssue>
+    */
+   private function sortByUrgency(array $issues): array
+   {
+      usort($issues, function (AuditedIssue $a, AuditedIssue $b): int {
+         $rankA = $a->assessment?->urgency->rank() ?? 2;
+         $rankB = $b->assessment?->urgency->rank() ?? 2;
+
+         return $rankA <=> $rankB ?: $b->group->count() <=> $a->group->count();
+      });
+
+      return $issues;
+   }
+
+   private function aiEnabled(): bool
+   {
+      return $this->errorAudit->aiEnabled();
+   }
+}

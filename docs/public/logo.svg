@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+
+    <!-- Glowing Accent Gradient -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB7185"/>
+      <stop offset="100%" stop-color="#E11D48"/>
+    </linearGradient>
+
+    <!-- Glassmorphism Overlay -->
+    <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Rounded Container -->
+  <rect width="256" height="256" rx="56" fill="url(#bgGradient)"/>
+  <rect width="254" height="254" x="1" y="1" rx="55" fill="none" stroke="#334155" stroke-width="2"/>
+
+  <!-- Log File Sheet -->
+  <rect x="60" y="44" width="136" height="168" rx="16" fill="url(#glassGradient)" stroke="#475569" stroke-width="3"/>
+
+  <!-- Log File Header / Lines -->
+  <line x1="84" y1="76" x2="124" y2="76" stroke="#94A3B8" stroke-width="5" stroke-linecap="round"/>
+  <line x1="84" y1="96" x2="172" y2="96" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+  <line x1="84" y1="114" x2="150" y2="114" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Envelope Envelope Fold Line (Daily Mail Concept) -->
+  <path d="M 60 160 L 128 115 L 196 160" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="4 4"/>
+
+  <!-- Error Alert Highlight Box inside Log -->
+  <rect x="76" y="138" width="104" height="48" rx="10" fill="#E11D48" fill-opacity="0.15" stroke="url(#accentGradient)" stroke-width="2"/>
+  
+  <!-- Mini Error Symbol in Log -->
+  <circle cx="98" cy="162" r="8" fill="url(#accentGradient)"/>
+  <path d="M 98 158 V 163 M 98 166 H 98.01" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Redacted Lines inside Alert Box -->
+  <line x1="116" y1="156" x2="164" y2="156" stroke="#FB7185" stroke-width="4" stroke-linecap="round"/>
+  <line x1="116" y1="168" x2="148" y2="168" stroke="#FB7185" stroke-width="4" stroke-opacity="0.6" stroke-linecap="round"/>
+
+  <!-- AI Sparkle (Top Right) -->
+  <path d="M 180 36 C 180 48 188 56 200 56 C 188 56 180 64 180 76 C 180 64 172 56 160 56 C 172 56 180 48 180 36 Z" fill="url(#accentGradient)"/>
+  
+  <!-- Mini Sparkle -->
+  <path d="M 68 32 C 68 38 72 42 78 42 C 72 42 68 46 68 52 C 68 46 64 42 58 42 C 64 42 68 38 68 32 Z" fill="#FB7185" opacity="0.8"/>
+</svg>
