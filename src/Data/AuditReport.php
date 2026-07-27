@@ -115,6 +115,35 @@ final class AuditReport
       return $sections;
    }
 
+   /**
+    * The analysis footnote as one string, so both mail variants word and
+    * space it identically: coverage, this run's input budget, true cost.
+    */
+   public function analysisFootnote(): string
+   {
+      $parts = [
+         __(':analysed of :total issue types analysed by AI.', [
+            'analysed' => $this->analysedIssueCount,
+            'total' => $this->issueTypeCount(),
+         ]),
+      ];
+
+      if ($this->analysisMaxInputTokens > 0) {
+         $parts[] = __('Input used: ~:used of :max tokens.', [
+            'used' => number_format($this->analysisInputTokens),
+            'max' => number_format($this->analysisMaxInputTokens),
+         ]);
+      }
+
+      if ($this->analysisCostUsd > 0) {
+         $parts[] = __('Analysis cost: :cost USD', ['cost' => number_format($this->analysisCostUsd, 4)])
+            .($this->analysisModel !== null ? ' ('.$this->analysisModel.')' : '')
+            .'.';
+      }
+
+      return implode(' ', $parts);
+   }
+
    public function issueTypeCount(): int
    {
       return count($this->issues);

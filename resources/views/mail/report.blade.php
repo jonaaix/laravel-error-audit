@@ -56,10 +56,7 @@ h1, h2, h3, .audit-title, .audit-card-title, .audit-card-count, .header a { colo
 
 <x-slot:subcopy>
 <x-mail::subcopy>
-{{ __(':analysed of :total issue types analysed by AI.', ['analysed' => $report->analysedIssueCount, 'total' => $report->issueTypeCount()]) }}@if ($report->analysisInputTokens > 0) {{ __('Input used: ~:used of :max tokens.', ['used' => number_format($report->analysisInputTokens), 'max' => number_format($report->analysisMaxInputTokens)]) }}@endif
-@if ($report->analysisCostUsd > 0)
-{{ __('Analysis cost: :cost USD', ['cost' => number_format($report->analysisCostUsd, 4)]) }}@if ($report->analysisModel) ({{ $report->analysisModel }})@endif.
-@endif
+{{ $report->analysisFootnote() }}
 </x-mail::subcopy>
 </x-slot:subcopy>
 

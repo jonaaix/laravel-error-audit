@@ -2,6 +2,16 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Fixed
+
+- The analysis footnote lost its token line on fully cached runs and ran its
+  sentences together without spaces. It is now assembled as one string shared
+  by both mail variants: the token line always appears when a budget exists
+  (reading "~0 of 40,000 tokens" when everything came from cache), with a
+  proper space between every sentence.
+
 ## [1.6.2] - 2026-07-27
 
 ### Fixed

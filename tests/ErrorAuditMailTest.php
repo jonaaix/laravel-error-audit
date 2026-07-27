@@ -168,3 +168,36 @@ it('states how much of the input token budget the analysis used', function (): v
 
    expect($html)->toContain('Input used: ~12,840 of 40,000 tokens.');
 });
+
+it('words the analysis footnote as separated sentences', function (): void {
+   $report = ErrorAuditReportFactory::report();
+
+   expect($report->analysisFootnote())->toBe(
+      '5 of 5 issue types analysed by AI. Input used: ~12,840 of 40,000 tokens. Analysis cost: 0.0041 USD (claude-haiku-4-5).'
+   );
+});
+
+it('shows the token budget even when everything came from cache', function (): void {
+   $report = new \Aaix\LaravelErrorAudit\Data\AuditReport(
+      applicationName: 'Acme IMS',
+      periodStart: \Illuminate\Support\Carbon::parse('2026-07-22 07:00:00'),
+      periodEnd: \Illuminate\Support\Carbon::parse('2026-07-23 07:00:00'),
+      issues: ErrorAuditReportFactory::report()->issues,
+      timeline: [],
+      channels: ['daily'],
+      errorCount: 5,
+      warningCount: 0,
+      previousErrorCount: null,
+      previousWarningCount: null,
+      analysedIssueCount: 5,
+      analysisCostUsd: 0.0255,
+      analysisModel: 'gemini-3.5-flash-lite',
+      discardedEntryCount: 0,
+      analysisInputTokens: 0,
+      analysisMaxInputTokens: 40000,
+   );
+
+   expect($report->analysisFootnote())->toBe(
+      '5 of 5 issue types analysed by AI. Input used: ~0 of 40,000 tokens. Analysis cost: 0.0255 USD (gemini-3.5-flash-lite).'
+   );
+});
