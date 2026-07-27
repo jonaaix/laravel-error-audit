@@ -120,3 +120,41 @@ it('ignores a cached assessment when a refresh is forced', function (): void {
 
    expect($result->issues[0]->assessment)->toBeNull();
 });
+
+it('reports per-issue progress while analysing', function (): void {
+   $progress = new class implements \Aaix\LaravelErrorAudit\Contracts\AuditProgress
+   {
+      public array $issues = [];
+
+      public array $details = [];
+
+      public function phase(string $description): void {}
+
+      public function detail(string $description): void
+      {
+         $this->details[] = $description;
+      }
+
+      public function issue(string $title, int $occurrences, \Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum $outcome, ?float $costUsd = null): void
+      {
+         $this->issues[] = [$title, $occurrences, $outcome];
+      }
+   };
+
+   seedAssessment('pp', 'RedisException', 12, UrgencyEnum::High);
+
+   app(IssueAnalyzer::class)->analyse(
+      [
+         ErrorAuditReportFactory::group('pp', 'RedisException', 5),
+         ErrorAuditReportFactory::group('qq', 'QueryException', 3),
+      ],
+      'the last 24 hours',
+      progress: $progress,
+   );
+
+   expect($progress->issues)->toHaveCount(1)
+      ->and($progress->issues[0][0])->toBe('RedisException')
+      ->and($progress->issues[0][1])->toBe(5)
+      ->and($progress->issues[0][2])->toBe(\Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::Cached)
+      ->and($progress->details)->toContain('AI analysis is disabled — issues are counted but not assessed');
+});

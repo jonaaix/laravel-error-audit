@@ -33,11 +33,9 @@ class SendErrorAuditCmd extends Command
          return self::SUCCESS;
       }
 
-      $this->components->task('Analysing logs', function () use ($service, $since, $until, &$report): bool {
-         $report = $service->generate($since, $until, (bool) $this->option('refresh'));
+      $progress = new ConsoleProgress($this->output);
 
-         return true;
-      });
+      $report = $service->generate($since, $until, (bool) $this->option('refresh'), $progress);
 
       $this->summarise($report);
 
@@ -47,9 +45,12 @@ class SendErrorAuditCmd extends Command
          return self::SUCCESS;
       }
 
+      $recipients = implode(', ', $dispatcher->describeRecipients());
+
+      $progress->phase($recipients !== '' ? 'Sending the report to '.$recipients : 'Sending the report');
       $dispatcher->send($report);
 
-      $this->components->info('Error audit sent to '.implode(', ', $dispatcher->describeRecipients()).'.');
+      $this->components->info($recipients !== '' ? 'Error audit sent to '.$recipients.'.' : 'Error audit sent.');
 
       return self::SUCCESS;
    }

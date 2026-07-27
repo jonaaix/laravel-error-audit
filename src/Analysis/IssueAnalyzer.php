@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Aaix\LaravelErrorAudit\Analysis;
 
 use Aaix\LaravelErrorAudit\Agents\ErrorAuditAgent;
+use Aaix\LaravelErrorAudit\Contracts\AuditProgress;
 use Aaix\LaravelErrorAudit\Data\AuditedIssue;
+use Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum;
+use Aaix\LaravelErrorAudit\Support\NullProgress;
 use Aaix\LaravelErrorAudit\Data\IssueAssessment;
 use Aaix\LaravelErrorAudit\Data\IssueGroup;
 use Aaix\LaravelErrorAudit\ErrorAudit;
@@ -25,14 +28,26 @@ class IssueAnalyzer
    /**
     * @param  list<IssueGroup>  $groups  Ordered by frequency, most frequent first.
     */
-   public function analyse(array $groups, string $periodDescription, bool $refresh = false): AnalysisResult
-   {
+   public function analyse(
+      array $groups,
+      string $periodDescription,
+      bool $refresh = false,
+      ?AuditProgress $progress = null,
+   ): AnalysisResult {
+      $progress ??= new NullProgress;
+
       $budget = new AnalysisBudget(
          maxIssues: (int) $this->errorAudit->value('ai.max_issues_per_run', 15),
          maxInputTokens: (int) $this->errorAudit->value('ai.max_input_tokens', 40000),
       );
 
       $groups = $this->errorAudit->applyIssueFilters($groups);
+
+      if ($groups === []) {
+         $progress->detail('nothing to analyse');
+      } elseif (! $this->aiEnabled()) {
+         $progress->detail('AI analysis is disabled — issues are counted but not assessed');
+      }
 
       $agent = new ErrorAuditAgent;
       $analysedCount = 0;
@@ -43,7 +58,9 @@ class IssueAnalyzer
          $assessment = $refresh ? null : $this->store->assessmentFor($group->fingerprint);
          $firstSeen = $this->store->firstSeen($group->fingerprint);
 
-         if ($assessment === null && $this->aiEnabled()) {
+         if ($assessment !== null) {
+            $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Cached);
+         } elseif ($this->aiEnabled()) {
             $payload = $this->payloadBuilder->build($group, $periodDescription);
 
             if ($budget->allows($this->payloadBuilder->estimateTokens($payload))) {
@@ -52,7 +69,18 @@ class IssueAnalyzer
                if ($assessment !== null) {
                   $analysedCount++;
                   $budget->consume($this->payloadBuilder->estimateTokens($payload));
+
+                  $progress->issue(
+                     $group->title(),
+                     $group->count(),
+                     AnalysisOutcomeEnum::Analysed,
+                     $agent->lastCost()?->totalCostUsd,
+                  );
+               } else {
+                  $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Failed);
                }
+            } else {
+               $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedBudget);
             }
          }
 

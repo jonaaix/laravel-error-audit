@@ -2,6 +2,18 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- A synchronous run (`error-audit:send --sync` / `--dry-run`) now narrates its
+  progress on the console instead of hiding behind a single spinner: one line
+  per phase (collecting, previous period, analysis, chart, sending) with counts,
+  and one line per issue stating what happened to it — analysed with its cost,
+  served from cache, skipped by the budget, or failed. Queued runs are
+  unaffected. Applications embedding the package can implement the new
+  `AuditProgress` contract to receive the same signals.
+
 ## [1.1.0] - 2026-07-27
 
 ### Added

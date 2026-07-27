@@ -7,7 +7,9 @@ namespace Aaix\LaravelErrorAudit\Services;
 use Aaix\LaravelErrorAudit\Analysis\AssessmentStore;
 use Aaix\LaravelErrorAudit\Analysis\CollectedLogs;
 use Aaix\LaravelErrorAudit\Charts\TimelineSeriesBuilder;
+use Aaix\LaravelErrorAudit\Contracts\AuditProgress;
 use Aaix\LaravelErrorAudit\Contracts\ChartRenderer;
+use Aaix\LaravelErrorAudit\Support\NullProgress;
 use Aaix\LaravelErrorAudit\Analysis\IssueAnalyzer;
 use Aaix\LaravelErrorAudit\Analysis\LogCollector;
 use Aaix\LaravelErrorAudit\Data\AuditReport;
@@ -26,18 +28,48 @@ class ErrorAuditService
       private readonly TimelineSeriesBuilder $seriesBuilder,
    ) {}
 
-   public function generate(?Carbon $since = null, ?Carbon $until = null, bool $refresh = false): AuditReport
-   {
+   public function generate(
+      ?Carbon $since = null,
+      ?Carbon $until = null,
+      bool $refresh = false,
+      ?AuditProgress $progress = null,
+   ): AuditReport {
+      $progress ??= new NullProgress;
       $until ??= Carbon::now();
       $since ??= $until->copy()->sub($this->period());
 
+      $progress->phase('Collecting entries — log channels and failed jobs');
       $collected = $this->collect($since, $until);
+      $progress->detail(sprintf(
+         '%s errors and %s warnings on %s → %d distinct issue types',
+         number_format($collected->errorCount),
+         number_format($collected->warningCount),
+         $collected->channels !== [] ? implode(', ', $collected->channels) : 'no channels',
+         count($collected->groups),
+      ));
+
+      $progress->phase('Reading the preceding period for the change rate');
       $previous = $this->previousPeriodTotals($since, $until);
+      $progress->detail(sprintf(
+         'previously %s errors and %s warnings',
+         number_format($previous['error'] ?? 0),
+         number_format($previous['warning'] ?? 0),
+      ));
+
+      $progress->phase('Analysing issues');
       $analysis = $this->analyzer->analyse(
          $collected->groupsByFrequency(),
          $this->describePeriod($since, $until),
          $refresh,
+         $progress,
       );
+
+      $progress->phase('Rendering the timeline chart');
+      $chartPng = $this->chartRenderer->render(
+         $collected->timeline,
+         $this->seriesBuilder->build($collected->groups, $collected->timeline),
+      );
+      $progress->detail($chartPng !== null ? 'rendered with GD' : 'skipped — ext-gd not available');
 
       return new AuditReport(
          applicationName: (string) config('app.name', 'Laravel'),
@@ -54,10 +86,7 @@ class ErrorAuditService
          analysisCostUsd: $analysis->costUsd,
          analysisModel: $analysis->model,
          discardedEntryCount: 0,
-         chartPng: $this->chartRenderer->render(
-            $collected->timeline,
-            $this->seriesBuilder->build($collected->groups, $collected->timeline),
-         ),
+         chartPng: $chartPng,
       );
    }
 
