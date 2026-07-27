@@ -2,6 +2,16 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- New subject line format: date first, then the two counts, then the
+  application — `27.07. — 49 ERRORS · 82 WARNINGS — WSU_eBusiness`. The
+  urgency symbol and the new-issue count no longer appear in the subject.
+- A period without a single error or warning no longer sends a mail. Opt into
+  an "all clear" heartbeat via the new `send_empty_reports` config key.
+
 ## [1.4.0] - 2026-07-27
 
 ### Changed

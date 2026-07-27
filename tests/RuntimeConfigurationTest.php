@@ -188,3 +188,44 @@ it('refuses to guess when nothing says where the report should go', function ():
 
    app(ErrorAudit::class)->notifiable();
 })->throws(RuntimeException::class, 'no recipients');
+
+function emptyAuditReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
+{
+   return new \Aaix\LaravelErrorAudit\Data\AuditReport(
+      applicationName: 'Acme IMS',
+      periodStart: \Illuminate\Support\Carbon::parse('2026-07-22 07:00:00'),
+      periodEnd: \Illuminate\Support\Carbon::parse('2026-07-23 07:00:00'),
+      issues: [],
+      timeline: [],
+      channels: [],
+      errorCount: 0,
+      warningCount: 0,
+      previousErrorCount: null,
+      previousWarningCount: null,
+      analysedIssueCount: 0,
+      analysisCostUsd: 0.0,
+      analysisModel: null,
+      discardedEntryCount: 0,
+   );
+}
+
+it('sends no mail when there is nothing to report', function (): void {
+   Notification::fake();
+   config()->set('error-audit.recipients', ['ops@example.com']);
+
+   $sent = app(ErrorAuditDispatcher::class)->send(emptyAuditReport());
+
+   expect($sent)->toBeFalse();
+   Notification::assertNothingSent();
+});
+
+it('sends the all-clear heartbeat when the application opts in', function (): void {
+   Notification::fake();
+   config()->set('error-audit.recipients', ['ops@example.com']);
+   config()->set('error-audit.send_empty_reports', true);
+
+   $sent = app(ErrorAuditDispatcher::class)->send(emptyAuditReport());
+
+   expect($sent)->toBeTrue();
+   Notification::assertSentTo(new AnonymousNotifiable, ErrorAuditNotification::class);
+});

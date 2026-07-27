@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Aaix\LaravelErrorAudit\Mail;
 
 use Aaix\LaravelErrorAudit\Data\AuditReport;
-use Aaix\LaravelErrorAudit\Enums\UrgencyEnum;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -42,30 +41,17 @@ class ErrorAuditMail extends Mailable
 
    /**
     * The subject line is the only part of the report that is read on a lock
-    * screen, so it carries the status signal on its own.
+    * screen: date first so stacked reports sort at a glance, then the two
+    * counts that matter, then which application is talking.
     */
    private function statusSubject(): string
    {
-      $symbol = match ($this->report->highestUrgency()) {
-         UrgencyEnum::Critical, UrgencyEnum::High => '⚠',
-         UrgencyEnum::Medium => '●',
-         default => '✓',
-      };
-
-      $parts = [];
-
-      if ($this->report->newIssueTypeCount() > 0) {
-         $parts[] = __(':count new issue types', ['count' => $this->report->newIssueTypeCount()]);
-      }
-
-      $parts[] = __(':count errors', ['count' => number_format($this->report->errorCount, 0, ',', '.')]);
-
       return sprintf(
-         '%s %s — %s, %s',
-         $symbol,
-         implode(' · ', $parts),
-         $this->report->applicationName,
+         '%s — %s · %s — %s',
          $this->report->periodEnd->format('d.m.'),
+         __(':count ERRORS', ['count' => number_format($this->report->errorCount, 0, ',', '.')]),
+         __(':count WARNINGS', ['count' => number_format($this->report->warningCount, 0, ',', '.')]),
+         $this->report->applicationName,
       );
    }
 }

@@ -21,12 +21,24 @@ class ErrorAuditDispatcher
       private readonly ErrorAudit $errorAudit,
    ) {}
 
-   public function send(AuditReport $report): void
+   /**
+    * Nothing to report means no mail, unless the application opts into an
+    * "all clear" heartbeat via send_empty_reports.
+    *
+    * @return bool Whether a report was actually sent.
+    */
+   public function send(AuditReport $report): bool
    {
+      if ($report->isEmpty() && ! (bool) $this->errorAudit->value('send_empty_reports', false)) {
+         return false;
+      }
+
       $this->notifications->send(
          $this->errorAudit->notifiable(),
          new ErrorAuditNotification($report),
       );
+
+      return true;
    }
 
    /**

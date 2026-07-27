@@ -83,10 +83,10 @@ it('inlines the packaged theme instead of the framework default', function (): v
    expect(renderAudit())->toContain('audit-summary');
 });
 
-it('carries the status signal in the subject line', function (): void {
+it('leads the subject with the date, then the two counts, then the app', function (): void {
    $envelope = (new ErrorAuditMail(ErrorAuditReportFactory::report()))->envelope();
 
-   expect($envelope->subject)->toBe('⚠ 2 new issue types · 526 errors — Acme IMS, 23.07.');
+   expect($envelope->subject)->toBe('23.07. — 526 ERRORS · 1.444 WARNINGS — Acme IMS');
 });
 
 it('states plainly when an issue was not analysed', function (): void {

@@ -47,10 +47,15 @@ class SendErrorAuditCmd extends Command
 
       $recipients = implode(', ', $dispatcher->describeRecipients());
 
-      $progress->phase($recipients !== '' ? 'Sending the report to '.$recipients : 'Sending the report');
-      $dispatcher->send($report);
+      if (! $report->isEmpty()) {
+         $progress->phase($recipients !== '' ? 'Sending the report to '.$recipients : 'Sending the report');
+      }
 
-      $this->components->info($recipients !== '' ? 'Error audit sent to '.$recipients.'.' : 'Error audit sent.');
+      if ($dispatcher->send($report)) {
+         $this->components->info($recipients !== '' ? 'Error audit sent to '.$recipients.'.' : 'Error audit sent.');
+      } else {
+         $this->components->info('Nothing to report — no mail was sent.');
+      }
 
       return self::SUCCESS;
    }

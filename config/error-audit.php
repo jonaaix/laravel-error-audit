@@ -44,6 +44,19 @@ return [
 
    /*
    |--------------------------------------------------------------------------
+   | Empty Reports
+   |--------------------------------------------------------------------------
+   |
+   | A period without a single error or warning sends no mail. Enable this to
+   | receive an "all clear" report anyway — useful as a heartbeat proving the
+   | audit itself still runs.
+   |
+   */
+
+   'send_empty_reports' => false,
+
+   /*
+   |--------------------------------------------------------------------------
    | Log Channels
    |--------------------------------------------------------------------------
    |

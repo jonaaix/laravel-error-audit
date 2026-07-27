@@ -71,6 +71,14 @@ Recipients are comma-friendly and can also come from a database or any
 notifiable — see [Advanced](/advanced#delivery). Leave `mailer` null to use the
 application default.
 
+```php
+'send_empty_reports' => false,
+```
+
+A period without a single error or warning sends no mail. Enable this to
+receive an "all clear" report anyway — useful as a heartbeat proving the audit
+itself still runs.
+
 ## Chart
 
 Mail clients run no JavaScript, so the timeline is a PNG drawn with `ext-gd`. No
