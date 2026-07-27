@@ -9,7 +9,8 @@ All notable changes to `aaix/laravel-error-audit` are documented here.
 - The chart carries two value axes: errors on the left in red, warnings on the
   right in amber, each scaled to its own tallest stack. A day with 49 errors
   no longer flatlines beside 7,400 warnings — both series use the full plot
-  height, and the colour of an axis label says which bars it measures.
+  height. Each axis is titled with its level name in the series colour, so
+  there is never a doubt which scale measures which bars.
 
 ## [1.6.1] - 2026-07-27
 

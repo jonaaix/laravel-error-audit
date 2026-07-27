@@ -32,7 +32,7 @@ class GdChartRenderer implements ChartRenderer
 
    private const WARNING_AXIS_COLOUR = '#b45309';
 
-   private const PADDING_TOP = 8;
+   private const PADDING_TOP = 24;
 
    private const PADDING_BOTTOM = 24;
 
@@ -108,6 +108,7 @@ class GdChartRenderer implements ChartRenderer
       ];
 
       $this->drawGrid($canvas, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceilings, $maxima);
+      $this->drawAxisTitles($canvas, $width, $maxima);
       $this->drawBars($canvas, $timeline, $series, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceilings);
       $this->drawTimeAxis($canvas, $timeline, $plotLeft, $plotRight, $plotBottom);
 
@@ -155,6 +156,25 @@ class GdChartRenderer implements ChartRenderer
             $value = (int) round($ceilings['warnings'] / self::AXIS_STEPS * $step);
             $this->text($canvas, number_format($value, 0, ',', '.'), $right + (7 * self::SCALE), $y + (4 * self::SCALE), $warningColour);
          }
+      }
+   }
+
+   /**
+    * Names above the two axes, in the colour of the series they measure, so
+    * the reader never has to guess which scale belongs to which bars.
+    *
+    * @param  array{errors: int, warnings: int}  $maxima
+    */
+   private function drawAxisTitles(GdImage $canvas, int $width, array $maxima): void
+   {
+      $y = 13 * self::SCALE;
+
+      if ($maxima['errors'] > 0) {
+         $this->text($canvas, __('ERRORS'), 2 * self::SCALE, $y, $this->colour($canvas, self::ERROR_AXIS_COLOUR));
+      }
+
+      if ($maxima['warnings'] > 0) {
+         $this->text($canvas, __('WARNINGS'), $width - (2 * self::SCALE), $y, $this->colour($canvas, self::WARNING_AXIS_COLOUR), alignRight: true);
       }
    }
 
