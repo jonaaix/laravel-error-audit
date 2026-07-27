@@ -22,6 +22,7 @@ class ErrorAuditReportFactory
       string $exceptionClass,
       int $occurrences,
       LogLevelEnum $level = LogLevelEnum::Error,
+      string $channel = 'daily',
    ): IssueGroup {
       $group = new IssueGroup($fingerprint, $level, $exceptionClass, 'signature');
       $start = Carbon::parse('2026-07-23 03:00:00');
@@ -32,7 +33,7 @@ class ErrorAuditReportFactory
          $group->add(new LogEntry(
             loggedAt: $moment,
             level: $level,
-            channel: 'daily',
+            channel: $channel,
             environment: 'production',
             message: $exceptionClass.' number '.$index,
             exceptionClass: $exceptionClass,

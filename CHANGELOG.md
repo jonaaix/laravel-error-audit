@@ -13,6 +13,11 @@ All notable changes to `aaix/laravel-error-audit` are documented here.
   assessment as log entries. Best effort by design: applications without a
   failed-job table, or with a driver other than `database` / `database-uuids`,
   contribute nothing. Opt out via `failed_jobs.enabled`.
+- The issue list in the report email is now sectioned per channel: a divider
+  names the channel (or the queue) before its cards, so the reader always knows
+  where they are while scrolling. Dividers only appear when a report spans more
+  than one channel. Failed-job issues additionally carry a QUEUE badge on the
+  card itself. Both mail variants (HTML and plain text) are sectioned alike.
 
 ## [1.0.2] - 2026-07-27
 

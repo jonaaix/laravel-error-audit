@@ -12,8 +12,19 @@
 {{ __('No errors or warnings were logged during this period.') }}
 @else
 
+@php
+   $sections = $report->issuesByChannel();
+   $queueChannel = \Aaix\LaravelErrorAudit\Sources\FailedJobsSource::CHANNEL;
+@endphp
 {{ __('Issues') }}
-@foreach ($report->issues as $issue)
+@foreach ($sections as $channel => $issues)
+@if (count($sections) > 1)
+
+==================================================
+{{ $channel === $queueChannel ? __('QUEUE — failed jobs') : strtoupper($channel).' — '.__('log channel') }}
+==================================================
+@endif
+@foreach ($issues as $issue)
 
 --------------------------------------------------
 {{ $issue->group->title() }} x{{ $issue->group->count() }}@if ($issue->isNew) [{{ __('NEW') }}]@endif
@@ -27,6 +38,7 @@
 @else
 {{ __('Not analysed in this run.') }}
 @endif
+@endforeach
 @endforeach
 @endif
 

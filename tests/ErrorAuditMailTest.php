@@ -107,3 +107,58 @@ it('ships a plain text alternative without markup', function (): void {
 });
 
 
+
+function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
+{
+   $issue = fn (string $fingerprint, string $class, string $channel) => new \Aaix\LaravelErrorAudit\Data\AuditedIssue(
+      group: ErrorAuditReportFactory::group($fingerprint, $class, 3, channel: $channel),
+      assessment: null,
+      isNew: false,
+      previousCount: null,
+      daysOpen: 0,
+   );
+
+   return new \Aaix\LaravelErrorAudit\Data\AuditReport(
+      applicationName: 'Acme IMS',
+      periodStart: \Illuminate\Support\Carbon::parse('2026-07-22 07:00:00'),
+      periodEnd: \Illuminate\Support\Carbon::parse('2026-07-23 07:00:00'),
+      issues: [
+         $issue('q1', 'App\Jobs\SyncFailure', 'failed-jobs'),
+         $issue('a1', 'Illuminate\Database\QueryException', 'daily'),
+         $issue('n1', 'UpstreamTimeout', 'nginx'),
+      ],
+      timeline: [],
+      channels: ['daily', 'nginx', 'failed-jobs'],
+      errorCount: 9,
+      warningCount: 0,
+      previousErrorCount: null,
+      previousWarningCount: null,
+      analysedIssueCount: 0,
+      analysisCostUsd: 0.0,
+      analysisModel: null,
+      discardedEntryCount: 0,
+   );
+}
+
+it('separates the issue list into one section per channel, queue always last', function (): void {
+   $html = (new ErrorAuditMail(multiChannelReport()))->render();
+
+   expect(substr_count($html, 'class="audit-channel-divider"'))->toBe(3)
+      ->and($html)->toContain('DAILY')
+      ->and($html)->toContain('NGINX')
+      ->and($html)->toContain('QUEUE')
+      ->and(strpos($html, 'DAILY'))->toBeLessThan(strpos($html, 'NGINX'))
+      ->and(strrpos($html, 'QUEUE'))->toBeGreaterThan(strpos($html, 'NGINX'));
+});
+
+it('marks a failed job issue with a queue badge', function (): void {
+   $html = (new ErrorAuditMail(multiChannelReport()))->render();
+
+   expect($html)->toContain('audit-badge-queue');
+});
+
+it('draws no channel divider when every issue shares one channel', function (): void {
+   $html = renderAudit();
+
+   expect($html)->not->toContain('class="audit-channel-divider"');
+});

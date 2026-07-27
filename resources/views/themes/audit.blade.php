@@ -383,6 +383,40 @@ img {
     color: #52525b;
 }
 
+.audit-badge-queue {
+    background-color: #eef2ff;
+    border: 1px solid #c7d2fe;
+    color: #4338ca;
+}
+
+.audit-channel-divider {
+    margin: 26px 0 10px;
+}
+
+.audit-channel-divider-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #3f3f46;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #d4d4d8;
+    white-space: nowrap;
+}
+
+.audit-channel-divider-hint {
+    font-weight: 500;
+    letter-spacing: normal;
+    color: #a1a1aa;
+}
+
+.audit-channel-divider-count {
+    font-size: 12px;
+    color: #a1a1aa;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #d4d4d8;
+    white-space: nowrap;
+}
+
 .audit-card-figure {
     vertical-align: top;
     white-space: nowrap;

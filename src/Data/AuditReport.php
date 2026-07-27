@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aaix\LaravelErrorAudit\Data;
 
 use Aaix\LaravelErrorAudit\Enums\UrgencyEnum;
+use Aaix\LaravelErrorAudit\Sources\FailedJobsSource;
 use Illuminate\Support\Carbon;
 
 final class AuditReport
@@ -83,6 +84,33 @@ final class AuditReport
       return $this->chartPng !== null
          ? 'data:image/png;base64,'.base64_encode($this->chartPng)
          : null;
+   }
+
+   /**
+    * Issues grouped for display: one section per channel so the reader knows
+    * where they are while scrolling — now the app log, now the queue, now
+    * nginx. The urgency order is kept within each section, and failed jobs
+    * always form the last section. A group seen on several channels sections
+    * under the first channel it appeared on.
+    *
+    * @return array<string, list<AuditedIssue>>
+    */
+   public function issuesByChannel(): array
+   {
+      $sections = [];
+
+      foreach ($this->issues as $issue) {
+         $channel = $issue->group->channels()[0] ?? 'log';
+         $sections[$channel][] = $issue;
+      }
+
+      if (isset($sections[FailedJobsSource::CHANNEL])) {
+         $queue = $sections[FailedJobsSource::CHANNEL];
+         unset($sections[FailedJobsSource::CHANNEL]);
+         $sections[FailedJobsSource::CHANNEL] = $queue;
+      }
+
+      return $sections;
    }
 
    public function issueTypeCount(): int
