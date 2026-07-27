@@ -2,7 +2,7 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
-## [Unreleased]
+## [1.6.1] - 2026-07-27
 
 ### Changed
 
