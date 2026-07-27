@@ -2,13 +2,17 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
-## [Unreleased]
+## [1.2.1] - 2026-07-27
 
 ### Changed
 
 - The channel divider in the report email is now a filled, full-width bar —
   dark for log channels, indigo for the queue section — instead of a thin
   underline that was easy to scroll past.
+- `demo.html` in the repository root is a committed, always-current preview of
+  the report email, rewritten on every test run; `composer demo` regenerates it
+  alone. A `.gitattributes` keeps the demo, docs and tests out of the composer
+  dist.
 
 ## [1.2.0] - 2026-07-27
 
