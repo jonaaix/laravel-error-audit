@@ -26,7 +26,11 @@ class GdChartRenderer implements ChartRenderer
 
    private const PADDING_LEFT = 42;
 
-   private const PADDING_RIGHT = 6;
+   private const PADDING_RIGHT = 42;
+
+   private const ERROR_AXIS_COLOUR = '#b91c1c';
+
+   private const WARNING_AXIS_COLOUR = '#b45309';
 
    private const PADDING_TOP = 8;
 
@@ -56,14 +60,17 @@ class GdChartRenderer implements ChartRenderer
          return null;
       }
 
-      $maximum = $this->maximumStack($timeline, $series);
+      $maxima = [
+         'errors' => $this->maximumFor($timeline, $series, 'errors'),
+         'warnings' => $this->maximumFor($timeline, $series, 'warnings'),
+      ];
 
-      if ($maximum <= 0) {
+      if (max($maxima) <= 0) {
          return null;
       }
 
       try {
-         return $this->draw($timeline, $series, $maximum);
+         return $this->draw($timeline, $series, $maxima);
       } catch (Throwable $exception) {
          $this->logger->warning('Error audit: chart rendering failed.', [
             'exception' => $exception->getMessage(),
@@ -76,8 +83,9 @@ class GdChartRenderer implements ChartRenderer
    /**
     * @param  list<TimelineBucket>  $timeline
     * @param  list<ChartSeries>  $series
+    * @param  array{errors: int, warnings: int}  $maxima
     */
-   private function draw(array $timeline, array $series, int $maximum): string
+   private function draw(array $timeline, array $series, array $maxima): string
    {
       $width = $this->width * self::SCALE;
       $height = $this->height * self::SCALE;
@@ -91,12 +99,16 @@ class GdChartRenderer implements ChartRenderer
       $plotTop = self::PADDING_TOP * self::SCALE;
       $plotBottom = $height - (self::PADDING_BOTTOM * self::SCALE);
 
-      // The tallest stack IS the top of the chart. Rounding the ceiling up to
-      // a "nice" number wasted up to half the plot height as empty headroom.
-      $ceiling = max($maximum, self::AXIS_STEPS);
+      // Errors and warnings live on separate axes: a quiet day with 49 errors
+      // must not flatline under 7,400 warnings. Each level scales to its own
+      // tallest stack — that stack IS the top of the chart on its axis.
+      $ceilings = [
+         'errors' => max($maxima['errors'], 1),
+         'warnings' => max($maxima['warnings'], 1),
+      ];
 
-      $this->drawGrid($canvas, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceiling);
-      $this->drawBars($canvas, $timeline, $series, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceiling);
+      $this->drawGrid($canvas, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceilings, $maxima);
+      $this->drawBars($canvas, $timeline, $series, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceilings);
       $this->drawTimeAxis($canvas, $timeline, $plotLeft, $plotRight, $plotBottom);
 
       ob_start();
@@ -108,30 +120,48 @@ class GdChartRenderer implements ChartRenderer
       return $png;
    }
 
+   /**
+    * One shared set of grid lines, two value scales: the error axis on the
+    * left in its own red, the warning axis on the right in amber, so the
+    * colour of a number says which bars it measures.
+    *
+    * @param  array{errors: int, warnings: int}  $ceilings
+    * @param  array{errors: int, warnings: int}  $maxima
+    */
    private function drawGrid(
       GdImage $canvas,
       int $left,
       int $right,
       int $top,
       int $bottom,
-      int $ceiling,
+      array $ceilings,
+      array $maxima,
    ): void {
       $gridColour = $this->colour($canvas, '#f1f1f3');
-      $labelColour = $this->colour($canvas, '#a1a1aa');
+      $errorColour = $this->colour($canvas, self::ERROR_AXIS_COLOUR);
+      $warningColour = $this->colour($canvas, self::WARNING_AXIS_COLOUR);
 
       for ($step = 0; $step <= self::AXIS_STEPS; $step++) {
-         $value = (int) round($ceiling / self::AXIS_STEPS * $step);
          $y = (int) round($bottom - (($bottom - $top) * ($step / self::AXIS_STEPS)));
 
          imagefilledrectangle($canvas, $left, $y, $right, $y + 1, $gridColour);
 
-         $this->text($canvas, number_format($value, 0, ',', '.'), $left - (7 * self::SCALE), $y + (4 * self::SCALE), $labelColour, alignRight: true);
+         if ($maxima['errors'] > 0) {
+            $value = (int) round($ceilings['errors'] / self::AXIS_STEPS * $step);
+            $this->text($canvas, number_format($value, 0, ',', '.'), $left - (7 * self::SCALE), $y + (4 * self::SCALE), $errorColour, alignRight: true);
+         }
+
+         if ($maxima['warnings'] > 0) {
+            $value = (int) round($ceilings['warnings'] / self::AXIS_STEPS * $step);
+            $this->text($canvas, number_format($value, 0, ',', '.'), $right + (7 * self::SCALE), $y + (4 * self::SCALE), $warningColour);
+         }
       }
    }
 
    /**
     * @param  list<TimelineBucket>  $timeline
     * @param  list<ChartSeries>  $series
+    * @param  array{errors: int, warnings: int}  $ceilings
     */
    private function drawBars(
       GdImage $canvas,
@@ -141,7 +171,7 @@ class GdChartRenderer implements ChartRenderer
       int $right,
       int $top,
       int $bottom,
-      int $ceiling,
+      array $ceilings,
    ): void {
       $slotWidth = ($right - $left) / max(count($timeline), 1);
       $stacks = ['errors', 'warnings'];
@@ -169,7 +199,7 @@ class GdChartRenderer implements ChartRenderer
 
                $segmentHeight = max(
                   self::SCALE,
-                  (int) round((($bottom - $top) * $value) / $ceiling),
+                  (int) round((($bottom - $top) * $value) / $ceilings[$stack]),
                );
 
                $segmentTop = max($top, $baseline - $segmentHeight);
@@ -282,34 +312,30 @@ class GdChartRenderer implements ChartRenderer
    }
 
    /**
+    * The tallest stacked bar of one level across the timeline.
+    *
     * @param  list<TimelineBucket>  $timeline
     * @param  list<ChartSeries>  $series
     */
-   private function maximumStack(array $timeline, array $series): int
+   private function maximumFor(array $timeline, array $series, string $stack): int
    {
       $maximum = 0;
 
       foreach (array_keys($timeline) as $index) {
-         foreach (['errors', 'warnings'] as $stack) {
-            $total = 0;
+         $total = 0;
 
-            foreach ($series as $item) {
-               if ($item->stack === $stack) {
-                  $total += $item->data[$index] ?? 0;
-               }
+         foreach ($series as $item) {
+            if ($item->stack === $stack) {
+               $total += $item->data[$index] ?? 0;
             }
-
-            $maximum = max($maximum, $total);
          }
+
+         $maximum = max($maximum, $total);
       }
 
       return $maximum;
    }
 
-   /**
-    * Round the axis up to a readable step so the labels are whole numbers a
-    * reader can divide in their head.
-    */
    private function colour(GdImage $canvas, string $hex): int
    {
       [$red, $green, $blue] = sscanf(ltrim($hex, '#'), '%2x%2x%2x') ?? [0, 0, 0];
