@@ -15,8 +15,6 @@ class LaravelLogParser
 {
    private const HEADER = '/^\[(?<time>\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:\s?[+-]\d{2}:?\d{2}|Z)?)\]\s(?<env>[^\s\[\]]+?)\.(?<level>[A-Z]+):\s?(?<message>.*)$/';
 
-   private const FRAME = '/^#\d+\s+(?<body>.*)$/';
-
    private const EXCEPTION_PREFIX = '/^(?<class>\\\\?[A-Za-z_][A-Za-z0-9_]*(?:\\\\{1,2}[A-Za-z_][A-Za-z0-9_]*)+|[A-Za-z_][A-Za-z0-9_]*(?:Exception|Error))\s*:\s/';
 
    /**
@@ -27,7 +25,14 @@ class LaravelLogParser
 
    private const CONTEXT_BLOB = '/\s*\{"(?:exception|userId|email)".*$/s';
 
-   public function __construct(private readonly ?int $maxStackFrames = null) {}
+   private readonly StackFrameNormaliser $frames;
+
+   public function __construct(
+      private readonly ?int $maxStackFrames = null,
+      ?StackFrameNormaliser $frames = null,
+   ) {
+      $this->frames = $frames ?? new StackFrameNormaliser;
+   }
 
    /**
     * Stream a log file entry by entry. Lines that do not open a new entry belong
@@ -75,7 +80,7 @@ class LaravelLogParser
                continue;
             }
 
-            $frame = $this->normaliseFrame($line);
+            $frame = $this->frames->normalise($line);
 
             if ($frame === null) {
                continue;
@@ -85,7 +90,7 @@ class LaravelLogParser
                $frames[] = $frame;
             }
 
-            if ($appFrame === null && $this->isApplicationFrame($frame)) {
+            if ($appFrame === null && $this->frames->isApplicationFrame($frame)) {
                $appFrame = $frame;
             }
          }
@@ -178,61 +183,4 @@ class LaravelLogParser
       return ltrim(str_replace('\\\\', '\\', $value), '\\');
    }
 
-   /**
-    * Reduce a stack frame to file, line and the invoked method. Argument values
-    * never survive parsing, so they cannot leak into an analysis payload.
-    */
-   private function normaliseFrame(string $line): ?string
-   {
-      $line = trim($line);
-
-      if (preg_match(self::FRAME, $line, $matches) !== 1) {
-         return null;
-      }
-
-      $body = $matches['body'];
-
-      if ($body === '{main}') {
-         return null;
-      }
-
-      $location = null;
-      $call = null;
-
-      if (preg_match('/^(?<file>.+?)\((?<line>\d+)\)\s*:\s*(?<call>.*)$/', $body, $parts) === 1) {
-         $location = $this->relativePath($parts['file']).':'.$parts['line'];
-         $call = $parts['call'];
-      } elseif (preg_match('/^\[internal function\]\s*:\s*(?<call>.*)$/', $body, $parts) === 1) {
-         $location = '[internal]';
-         $call = $parts['call'];
-      } else {
-         return $this->relativePath($body);
-      }
-
-      $call = preg_replace('/\(.*$/s', '()', trim($call)) ?? '';
-
-      return trim($location.' '.$this->unescape($call));
-   }
-
-   /**
-    * The frame worth showing is the first one inside the application, which is
-    * often buried well below the vendor frames that raised the exception.
-    */
-   private function isApplicationFrame(string $frame): bool
-   {
-      if (str_contains($frame, 'vendor/') || str_starts_with($frame, '[internal]')) {
-         return false;
-      }
-
-      return (bool) preg_match('#^(app|packages|routes|config|database|bootstrap)/#', $frame);
-   }
-
-   private function relativePath(string $path): string
-   {
-      $base = function_exists('base_path') ? base_path() : '';
-
-      return $base !== '' && str_starts_with($path, $base)
-         ? ltrim(substr($path, strlen($base)), DIRECTORY_SEPARATOR)
-         : $path;
-   }
 }

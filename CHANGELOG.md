@@ -2,6 +2,18 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Failed queue jobs are included in the report as issues. Their exceptions
+  never reach a log file — they are read from the queue's failed-job store
+  (`queue.failed`) instead, appear under the `failed-jobs` channel with the job
+  class in the message, and flow through the same fingerprinting, redaction and
+  assessment as log entries. Best effort by design: applications without a
+  failed-job table, or with a driver other than `database` / `database-uuids`,
+  contribute nothing. Opt out via `failed_jobs.enabled`.
+
 ## [1.0.2] - 2026-07-27
 
 ### Fixed

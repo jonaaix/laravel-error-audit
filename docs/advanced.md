@@ -76,6 +76,23 @@ Channels come from your application's own logging config:
 
 Both lists accept wildcards; exclusion wins.
 
+## Failed jobs
+
+A job that exhausts its retries never reaches a log file — its exception lands
+in the queue's failed-job store. Failed jobs from the audited period are
+therefore included in the report like any other issue, under the `failed-jobs`
+channel, with the job class carried in the message.
+
+```php
+'failed_jobs' => [
+    'enabled' => true,
+],
+```
+
+Strictly best effort: an application without a failed-job table, or with a
+failed driver other than `database` / `database-uuids`, simply contributes
+nothing — nothing fails, nothing warns.
+
 ## Queue
 
 ```php

@@ -22,6 +22,7 @@ Do **not** invoke for live error tracking (Sentry, Flare, Telescope) or general 
 - Config file: `config/error-audit.php`, published via `php artisan vendor:publish --tag=error-audit-config`.
 - Analysis runs on [`laravel/ai`](https://github.com/laravel/ai). Default: provider `gemini`, model `gemini-3.5-flash-lite`. Only the provider **API key** belongs in `.env`; provider and model choice are configuration.
 - Log channels are **discovered** from the app's `logging.php` — every `single`, `daily` and `stack` channel resolved to its files. Non-file drivers (slack, syslog, …) are skipped automatically. Include/exclude via `channels.include` / `channels.exclude` (`'*'` = all).
+- **Failed queue jobs** are included as issues too (channel `failed-jobs`), read from the queue's failed-job table — their exceptions never reach a log file. Best effort: apps without the table or with a non-database failed driver contribute nothing. Opt out via `failed_jobs.enabled`.
 - Each distinct issue is fingerprinted, analysed **once**, and cached in the framework cache. No migrations, no schema — clearing the cache costs one re-analysis per issue.
 - Redaction always runs and **cannot be disabled**; a sample that ends up mostly masked is discarded instead of sent.
 

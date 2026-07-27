@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Aaix\LaravelErrorAudit\Analysis;
 
 use Aaix\LaravelErrorAudit\Data\IssueGroup;
+use Aaix\LaravelErrorAudit\Data\LogEntry;
 use Aaix\LaravelErrorAudit\Data\TimelineBucket;
 use Aaix\LaravelErrorAudit\Enums\LogLevelEnum;
 use Aaix\LaravelErrorAudit\Grouping\IssueFingerprinter;
 use Aaix\LaravelErrorAudit\Parsing\LaravelLogParser;
+use Aaix\LaravelErrorAudit\Sources\FailedJobsSource;
 use Aaix\LaravelErrorAudit\Sources\LogChannelDiscovery;
 use Illuminate\Support\Carbon;
 
@@ -20,6 +22,7 @@ class LogCollector
       private readonly LogChannelDiscovery $discovery,
       private readonly LaravelLogParser $parser,
       private readonly IssueFingerprinter $fingerprinter,
+      private readonly FailedJobsSource $failedJobs,
    ) {}
 
    public function collect(
@@ -43,34 +46,13 @@ class LogCollector
          }
 
          foreach ($this->parser->parse($file, $since, $until, $minimumLevel) as $entry) {
-            $channels[$entry->channel] = true;
-            $bucketKey = $this->bucketKey($entry->loggedAt, $hourly);
+            $this->ingest($entry, $hourly, $samplesPerIssue, $groups, $timeline, $channels, $errorCount, $warningCount);
+         }
+      }
 
-            if ($entry->level->isError()) {
-               $errorCount++;
-            } else {
-               $warningCount++;
-            }
-
-            if (isset($timeline[$bucketKey])) {
-               if ($entry->level->isError()) {
-                  $timeline[$bucketKey]->errors++;
-               } else {
-                  $timeline[$bucketKey]->warnings++;
-               }
-            }
-
-            $fingerprint = $this->fingerprinter->fingerprint($entry);
-
-            $groups[$fingerprint] ??= new IssueGroup(
-               fingerprint: $fingerprint,
-               level: $entry->level,
-               exceptionClass: $entry->exceptionClass,
-               normalizedMessage: $this->fingerprinter->signature($entry->message),
-               sampleLimit: $samplesPerIssue,
-            );
-
-            $groups[$fingerprint]->add($entry, $bucketKey);
+      foreach ($this->failedJobs->entries($since, $until) as $entry) {
+         if ($entry->level->isAtLeast($minimumLevel)) {
+            $this->ingest($entry, $hourly, $samplesPerIssue, $groups, $timeline, $channels, $errorCount, $warningCount);
          }
       }
 
@@ -81,6 +63,51 @@ class LogCollector
          errorCount: $errorCount,
          warningCount: $warningCount,
       );
+   }
+
+   /**
+    * @param  array<string, IssueGroup>  $groups
+    * @param  array<string, TimelineBucket>  $timeline
+    * @param  array<string, true>  $channels
+    */
+   private function ingest(
+      LogEntry $entry,
+      bool $hourly,
+      int $samplesPerIssue,
+      array &$groups,
+      array &$timeline,
+      array &$channels,
+      int &$errorCount,
+      int &$warningCount,
+   ): void {
+      $channels[$entry->channel] = true;
+      $bucketKey = $this->bucketKey($entry->loggedAt, $hourly);
+
+      if ($entry->level->isError()) {
+         $errorCount++;
+      } else {
+         $warningCount++;
+      }
+
+      if (isset($timeline[$bucketKey])) {
+         if ($entry->level->isError()) {
+            $timeline[$bucketKey]->errors++;
+         } else {
+            $timeline[$bucketKey]->warnings++;
+         }
+      }
+
+      $fingerprint = $this->fingerprinter->fingerprint($entry);
+
+      $groups[$fingerprint] ??= new IssueGroup(
+         fingerprint: $fingerprint,
+         level: $entry->level,
+         exceptionClass: $entry->exceptionClass,
+         normalizedMessage: $this->fingerprinter->signature($entry->message),
+         sampleLimit: $samplesPerIssue,
+      );
+
+      $groups[$fingerprint]->add($entry, $bucketKey);
    }
 
    /**

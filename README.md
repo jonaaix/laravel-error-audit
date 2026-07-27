@@ -67,7 +67,8 @@ php artisan error-audit:send --since="48 hours" --dry-run
 ## How it works
 
 1. **Discover** — every `single`, `daily` and `stack` channel in your logging configuration is resolved to the files it
-   actually writes to. Slack, syslog and other non file drivers are skipped.
+   actually writes to. Slack, syslog and other non file drivers are skipped. Failed queue jobs — whose exceptions never
+   reach a log file — are read from the failed-job table and included as issues too.
 2. **Group** — entries are fingerprinted so the same failure lands in one group regardless of the ids, paths, timestamps or
    addresses it carries.
 3. **Redact** — credentials, tokens, personal data and generated-looking strings are masked before anything leaves the

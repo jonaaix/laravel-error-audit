@@ -60,6 +60,25 @@ return [
 
    /*
    |--------------------------------------------------------------------------
+   | Failed Jobs
+   |--------------------------------------------------------------------------
+   |
+   | A job that exhausts its retries never reaches a log file — its exception
+   | lands in the queue's failed-job store. When enabled, failed jobs from the
+   | audited period are included in the report like any other issue, under the
+   | "failed-jobs" channel.
+   |
+   | Strictly best effort: applications without a failed-job table, or with a
+   | driver other than database / database-uuids, simply contribute nothing.
+   |
+   */
+
+   'failed_jobs' => [
+      'enabled' => true,
+   ],
+
+   /*
+   |--------------------------------------------------------------------------
    | Artificial Intelligence
    |--------------------------------------------------------------------------
    |
