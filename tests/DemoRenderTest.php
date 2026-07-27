@@ -36,32 +36,32 @@ it('renders the demo report to demo.html', function (): void {
          'Nightly reconciliation writes into a missing table',
          'A migration adding the reconciliation table was never applied on this environment.',
          'Run the pending migration, then re-queue the failed batch from the Horizon dashboard.',
-      ), true, 12, 0),
+      ), true, 12),
       new AuditedIssue($groups['a2'], $assessment(
          UrgencyEnum::Medium, IssueCategoryEnum::Integration,
          'Payment provider declines cards issued outside the EU',
          'The provider profile is configured with an EU-only acquiring route.',
          'Confirm the intended market coverage with the provider dashboard settings.',
-      ), false, null, 3),
+      ), false, null),
       new AuditedIssue($groups['a3'], $assessment(
          UrgencyEnum::Low, IssueCategoryEnum::Deprecation,
          'Deprecated null coalescing on a typed property',
          'A dependency calls a setter that PHP 8.4 flags as deprecated.',
          'Update the aaix/legacy-import package to ^3.2 where this is fixed.',
-      ), false, null, 9),
+      ), false, null),
       new AuditedIssue($groups['q1'], $assessment(
          UrgencyEnum::High, IssueCategoryEnum::Infrastructure,
          'Order sync jobs exhaust retries against the ERP endpoint',
          'The ERP API rejects the sync payload since the last schema change.',
          'Replay one failed job with horizon:forget after deploying the new mapping.',
-      ), true, null, 0),
-      new AuditedIssue($groups['q2'], null, false, null, 1),
+      ), true, null),
+      new AuditedIssue($groups['q2'], null, false, null),
       new AuditedIssue($groups['n1'], $assessment(
          UrgencyEnum::Noise, IssueCategoryEnum::Noise,
          'Sporadic upstream timeouts from the image resizer',
          'The resizer cold-starts under low traffic and misses the 5s proxy timeout.',
          'Raise proxy_read_timeout for the resizer location or keep one instance warm.',
-      ), false, 71, 24),
+      ), false, 71),
    ];
 
    $base = ErrorAuditReportFactory::report();

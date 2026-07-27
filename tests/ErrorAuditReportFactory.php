@@ -68,7 +68,6 @@ class ErrorAuditReportFactory
             ) : null,
             isNew: $index < 2,
             previousCount: $index === 0 ? 298 : ($index === 3 ? 260 : null),
-            daysOpen: $index === 4 ? 12 : 0,
          );
       }
 

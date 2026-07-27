@@ -31,33 +31,44 @@ function seedAssessment(string $fingerprint, string $exceptionClass, int $count,
    );
 }
 
-it('remembers every issue it saw', function (): void {
+it('leaves nothing behind for an issue it could not assess', function (): void {
    $result = analyse([ErrorAuditReportFactory::group('aa', 'RedisException', 4)]);
 
-   expect($result->issues)->toHaveCount(1);
-
-   $entry = app(AssessmentStore::class)->find('aa');
-
-   expect($entry['last_count'])->toBe(4)
-      ->and($entry['total_count'])->toBe(4)
-      ->and($entry['level'])->toBe('error');
+   expect($result->issues)->toHaveCount(1)
+      ->and(app(AssessmentStore::class)->find('aa'))->toBeNull();
 });
 
-it('marks an issue seen for the first time as new', function (): void {
+it('marks an issue absent from the preceding window as new', function (): void {
    $result = analyse([ErrorAuditReportFactory::group('bb', 'RedisException', 2)]);
 
    expect($result->issues[0]->isNew)->toBeTrue()
       ->and($result->issues[0]->previousCount)->toBeNull();
 });
 
-it('carries the previous count forward on the next run', function (): void {
-   analyse([ErrorAuditReportFactory::group('cc', 'RedisException', 3)]);
-   $result = analyse([ErrorAuditReportFactory::group('cc', 'RedisException', 9)]);
+it('takes the previous count from the preceding window', function (): void {
+   $result = app(IssueAnalyzer::class)->analyse(
+      [ErrorAuditReportFactory::group('cc', 'RedisException', 9)],
+      'the last 24 hours',
+      previousGroups: ['cc' => ErrorAuditReportFactory::group('cc', 'RedisException', 3)],
+   );
 
    expect($result->issues[0]->isNew)->toBeFalse()
       ->and($result->issues[0]->previousCount)->toBe(3)
-      ->and($result->issues[0]->deltaPercent())->toBe(200)
-      ->and(app(AssessmentStore::class)->find('cc')['total_count'])->toBe(12);
+      ->and($result->issues[0]->deltaPercent())->toBe(200);
+});
+
+it('produces the identical result when run twice over the same window', function (): void {
+   $run = fn () => app(IssueAnalyzer::class)->analyse(
+      [ErrorAuditReportFactory::group('dd2', 'RedisException', 4)],
+      'the last 24 hours',
+   );
+
+   $first = $run();
+   $second = $run();
+
+   expect($second->issues[0]->isNew)->toBe($first->issues[0]->isNew)
+      ->and($second->issues[0]->previousCount)->toBe($first->issues[0]->previousCount)
+      ->and($second->issues[0]->assessment?->title)->toBe($first->issues[0]->assessment?->title);
 });
 
 it('reuses a cached assessment instead of asking again', function (): void {
@@ -79,16 +90,6 @@ it('keeps the assessment when a later run adds no new analysis', function (): vo
    $result = analyse([ErrorAuditReportFactory::group('ee', 'RedisException', 2)]);
 
    expect($result->issues[0]->assessment?->title)->toBe('Redis is unreachable.');
-});
-
-it('keeps the first sighting across runs', function (): void {
-   analyse([ErrorAuditReportFactory::group('ff', 'RedisException', 1)]);
-   $first = app(AssessmentStore::class)->firstSeen('ff');
-
-   analyse([ErrorAuditReportFactory::group('ff', 'RedisException', 1)]);
-
-   expect(app(AssessmentStore::class)->firstSeen('ff')->toIso8601String())
-      ->toBe($first->toIso8601String());
 });
 
 it('sorts the most urgent issue to the top regardless of frequency', function (): void {

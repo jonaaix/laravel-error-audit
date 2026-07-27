@@ -2,6 +2,23 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- The report is now a pure function of the analysed time window: running the
+  same period twice yields the identical report. "New" and the per-issue
+  previous count compare against the immediately preceding window of the same
+  length, read fresh from the logs — no longer against state left behind by
+  earlier runs. The assessment store shrank to what it always should have
+  been: a cache of AI assessments that saves requests without changing what
+  the report says.
+
+### Removed
+
+- `AuditedIssue::$daysOpen` — run-history bookkeeping that was displayed
+  nowhere.
+
 ## [1.3.0] - 2026-07-27
 
 ### Changed

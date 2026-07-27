@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Aaix\LaravelErrorAudit\Services;
 
-use Aaix\LaravelErrorAudit\Analysis\AssessmentStore;
 use Aaix\LaravelErrorAudit\Analysis\CollectedLogs;
 use Aaix\LaravelErrorAudit\Charts\TimelineSeriesBuilder;
 use Aaix\LaravelErrorAudit\Contracts\AuditProgress;
@@ -22,7 +21,6 @@ class ErrorAuditService
    public function __construct(
       private readonly LogCollector $collector,
       private readonly IssueAnalyzer $analyzer,
-      private readonly AssessmentStore $store,
       private readonly ErrorAudit $errorAudit,
       private readonly ChartRenderer $chartRenderer,
       private readonly TimelineSeriesBuilder $seriesBuilder,
@@ -48,12 +46,13 @@ class ErrorAuditService
          count($collected->groups),
       ));
 
-      $progress->phase('Reading the preceding period for the change rate');
-      $previous = $this->previousPeriodTotals($since, $until);
+      $progress->phase('Reading the preceding period for the change rates');
+      $previous = $this->previousPeriod($since, $until);
       $progress->detail(sprintf(
-         'previously %s errors and %s warnings',
-         number_format($previous['error'] ?? 0),
-         number_format($previous['warning'] ?? 0),
+         'previously %s errors and %s warnings → %d issue types',
+         number_format($previous?->errorCount ?? 0),
+         number_format($previous?->warningCount ?? 0),
+         $previous !== null ? count($previous->groups) : 0,
       ));
 
       $progress->phase('Analysing issues');
@@ -62,6 +61,7 @@ class ErrorAuditService
          $this->describePeriod($since, $until),
          $refresh,
          $progress,
+         $previous?->groups ?? [],
       );
 
       if ($analysis->inputTokens > 0) {
@@ -88,8 +88,8 @@ class ErrorAuditService
          channels: $collected->channels,
          errorCount: $collected->errorCount,
          warningCount: $collected->warningCount,
-         previousErrorCount: $previous['error'],
-         previousWarningCount: $previous['warning'],
+         previousErrorCount: $previous?->errorCount,
+         previousWarningCount: $previous?->warningCount,
          analysedIssueCount: $analysis->analysedCount,
          analysisCostUsd: $analysis->costUsd,
          analysisModel: $analysis->model,
@@ -101,23 +101,21 @@ class ErrorAuditService
    }
 
    /**
-    * Count the immediately preceding window of the same length, so a delta
-    * always compares like with like. Reading it fresh on every run is what
-    * keeps the figure honest when the analysed period changes.
-    *
-    * @return array{error: ?int, warning: ?int}
+    * Collect the immediately preceding window of the same length, so every
+    * delta — totals, per-issue counts, "new" — compares like with like.
+    * Reading it fresh from the logs on every run is what makes the report a
+    * pure function of the window: the same period always yields the same
+    * report.
     */
-   private function previousPeriodTotals(Carbon $since, Carbon $until): array
+   private function previousPeriod(Carbon $since, Carbon $until): ?CollectedLogs
    {
       $length = $until->diffInSeconds($since);
 
       if ($length <= 0) {
-         return ['error' => null, 'warning' => null];
+         return null;
       }
 
-      $previous = $this->collect($since->copy()->subSeconds((int) $length), $since->copy()->subSecond());
-
-      return ['error' => $previous->errorCount, 'warning' => $previous->warningCount];
+      return $this->collect($since->copy()->subSeconds((int) $length), $since->copy()->subSecond());
    }
 
    public function collect(Carbon $since, Carbon $until): CollectedLogs

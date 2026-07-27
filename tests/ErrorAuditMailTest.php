@@ -115,7 +115,6 @@ function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
       assessment: null,
       isNew: false,
       previousCount: null,
-      daysOpen: 0,
    );
 
    return new \Aaix\LaravelErrorAudit\Data\AuditReport(

@@ -12,7 +12,6 @@ use Aaix\LaravelErrorAudit\Support\NullProgress;
 use Aaix\LaravelErrorAudit\Data\IssueAssessment;
 use Aaix\LaravelErrorAudit\Data\IssueGroup;
 use Aaix\LaravelErrorAudit\ErrorAudit;
-use Illuminate\Support\Carbon;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -26,13 +25,21 @@ class IssueAnalyzer
    ) {}
 
    /**
+    * The report is a pure function of the analysed window: "new" and the
+    * previous count come from comparing against the preceding window of the
+    * same length, never from state left behind by earlier runs. Only the AI
+    * assessment cache persists across runs — it saves requests, it does not
+    * change what the report says happened.
+    *
     * @param  list<IssueGroup>  $groups  Ordered by frequency, most frequent first.
+    * @param  array<string, IssueGroup>  $previousGroups  Issues of the preceding window, keyed by fingerprint.
     */
    public function analyse(
       array $groups,
       string $periodDescription,
       bool $refresh = false,
       ?AuditProgress $progress = null,
+      array $previousGroups = [],
    ): AnalysisResult {
       $progress ??= new NullProgress;
 
@@ -54,9 +61,7 @@ class IssueAnalyzer
       $issues = [];
 
       foreach ($groups as $group) {
-         $known = $this->store->find($group->fingerprint);
          $assessment = $refresh ? null : $this->store->assessmentFor($group->fingerprint);
-         $firstSeen = $this->store->firstSeen($group->fingerprint);
 
          if ($assessment !== null) {
             $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Cached);
@@ -69,6 +74,7 @@ class IssueAnalyzer
                if ($assessment !== null) {
                   $analysedCount++;
                   $budget->consume($this->payloadBuilder->estimateTokens($payload));
+                  $this->store->remember($group, $assessment, $agent->lastCost()?->model, $agent->lastCost()?->totalCostUsd);
 
                   $progress->issue(
                      $group->title(),
@@ -84,19 +90,13 @@ class IssueAnalyzer
             }
          }
 
+         $previous = $previousGroups[$group->fingerprint] ?? null;
+
          $issues[] = new AuditedIssue(
             group: $group,
             assessment: $assessment,
-            isNew: $known === null,
-            previousCount: isset($known['last_count']) ? (int) $known['last_count'] : null,
-            daysOpen: $firstSeen !== null ? (int) $firstSeen->diffInDays(Carbon::now()) : 0,
-         );
-
-         $this->store->remember(
-            $group,
-            $assessment,
-            $agent->lastCost()?->model,
-            $agent->lastCost()?->totalCostUsd,
+            isNew: $previous === null,
+            previousCount: $previous?->count(),
          );
       }
 

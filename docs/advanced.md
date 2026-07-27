@@ -115,9 +115,14 @@ only to keep the audit off a busy queue.
 ```
 
 Assessments live in the framework cache, keyed by fingerprint — no schema, no
-migration. Name a store to keep the audit history out of a cache you flush
-regularly. Losing the entries is harmless: each issue is simply treated as new
-once and analysed again.
+migration. Name a store to keep the assessments out of a cache you flush
+regularly. Losing the entries is harmless: the affected issues are analysed
+once more, nothing else changes.
+
+The cache only saves requests — it never changes what the report says. A
+report is a pure function of its time window: "new" and every delta compare
+against the immediately preceding window of the same length, read fresh from
+the logs, so the same period always yields the same report.
 
 ## Preview route
 
