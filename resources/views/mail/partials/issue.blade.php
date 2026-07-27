@@ -37,16 +37,10 @@
 @if ($assessment)
 <tr>
 <td class="audit-card-detail">
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation">
-<tr>
-<td class="audit-card-key" valign="top" width="52">{{ __('Cause') }}</td>
-<td class="audit-card-value" valign="top">{{ $assessment->likelyCause }}</td>
-</tr>
-<tr>
-<td class="audit-card-key" valign="top">{{ __('Suggestion') }}</td>
-<td class="audit-card-value" valign="top">{{ $assessment->suggestedAction }}</td>
-</tr>
-</table>
+<p class="audit-card-key">{{ __('Cause') }}</p>
+<p class="audit-card-value">{{ $assessment->likelyCause }}</p>
+<p class="audit-card-key">{{ __('Suggestion') }}</p>
+<p class="audit-card-value audit-card-value-last">{{ $assessment->suggestedAction }}</p>
 </td>
 </tr>
 @else

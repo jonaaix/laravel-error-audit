@@ -469,14 +469,18 @@ img {
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #a1a1aa;
-    padding: 2px 12px 8px 0;
+    margin: 0 0 2px;
 }
 
 .audit-card-value {
     font-size: 13px;
     line-height: 1.5;
     color: #3f3f46;
-    padding: 0 0 8px 0;
+    margin: 0 0 10px;
+}
+
+.audit-card-value-last {
+    margin-bottom: 0;
 }
 
 .audit-card-unanalysed {

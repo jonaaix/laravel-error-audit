@@ -2,6 +2,14 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [1.6.0] - 2026-07-27
+
+### Changed
+
+- Cause and Suggestion on an issue card are stacked — label above text —
+  instead of a two-column table. Reads better on narrow clients and wastes no
+  width on a label column.
+
 ## [1.5.0] - 2026-07-27
 
 ### Changed
