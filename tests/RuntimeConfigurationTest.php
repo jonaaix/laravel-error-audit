@@ -161,6 +161,28 @@ it('applies the resolved sender to the mail', function (): void {
    expect($mail->from)->toContain(['name' => 'Nightly Audit', 'address' => 'audit@example.com']);
 });
 
+it('puts the configured recipients on the mailable itself', function (): void {
+   // MailChannel sends a returned Mailable as-is and never applies the mail
+   // route, so the addresses must land on the mailable in toMail().
+   $notifiable = Notification::route('mail', ['ops@example.com', 'lead@example.com']);
+
+   $mail = (new ErrorAuditNotification(ErrorAuditReportFactory::report()))
+      ->toMail($notifiable);
+
+   expect($mail->hasTo('ops@example.com'))->toBeTrue()
+      ->and($mail->hasTo('lead@example.com'))->toBeTrue();
+});
+
+it('carries a name given alongside a routed address', function (): void {
+   $notifiable = Notification::route('mail', ['ops@example.com' => 'Ops Team']);
+
+   $mail = (new ErrorAuditNotification(ErrorAuditReportFactory::report()))
+      ->toMail($notifiable);
+
+   expect($mail->hasTo('ops@example.com'))->toBeTrue()
+      ->and($mail->to)->toContain(['name' => 'Ops Team', 'address' => 'ops@example.com']);
+});
+
 it('refuses to guess when nothing says where the report should go', function (): void {
    config()->set('error-audit.recipients', []);
 

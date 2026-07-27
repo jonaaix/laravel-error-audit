@@ -41,9 +41,31 @@ class ErrorAuditNotification extends Notification
          $mail->mailer($mailer);
       }
 
+      $this->applyRecipients($mail, $notifiable);
+
       $errorAudit->callSendingCallbacks($mail, $this->report);
 
       return $mail;
+   }
+
+   /**
+    * When toMail() returns a Mailable, Laravel's MailChannel sends it as-is
+    * and never applies the notifiable's mail route — the recipients have to be
+    * copied onto the mailable here, or the message leaves without a "To".
+    */
+   private function applyRecipients(ErrorAuditMail $mail, object $notifiable): void
+   {
+      if ($mail->to !== [] || ! method_exists($notifiable, 'routeNotificationFor')) {
+         return;
+      }
+
+      $route = $notifiable->routeNotificationFor('mail', $this);
+
+      foreach ((array) $route as $address => $name) {
+         is_string($address)
+            ? $mail->to($address, is_string($name) ? $name : null)
+            : $mail->to($name);
+      }
    }
 
    /**

@@ -2,6 +2,16 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [1.0.2] - 2026-07-27
+
+### Fixed
+
+- Report delivery to the configured recipient addresses crashed with
+  "An email must have a To, Cc, or Bcc header": Laravel's MailChannel sends a
+  Mailable returned from `toMail()` as-is and never applies the notifiable's
+  mail route. The recipients are now copied onto the mailable itself. Delivery
+  via `notifiableUsing()` was unaffected.
+
 ## [1.0.1] - 2026-07-27
 
 ### Changed
