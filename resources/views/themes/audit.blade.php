@@ -390,30 +390,34 @@ img {
 }
 
 .audit-channel-divider {
-    margin: 26px 0 10px;
+    margin: 32px 0 12px;
+    background-color: #3f3f46;
+    border-radius: 6px;
+}
+
+.audit-channel-divider-queue {
+    background-color: #4338ca;
 }
 
 .audit-channel-divider-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #3f3f46;
-    padding-bottom: 7px;
-    border-bottom: 2px solid #d4d4d8;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    padding: 10px 14px;
     white-space: nowrap;
 }
 
 .audit-channel-divider-hint {
     font-weight: 500;
     letter-spacing: normal;
-    color: #a1a1aa;
+    color: #d4d4d8;
 }
 
 .audit-channel-divider-count {
     font-size: 12px;
-    color: #a1a1aa;
-    padding-bottom: 7px;
-    border-bottom: 2px solid #d4d4d8;
+    color: #d4d4d8;
+    padding: 10px 14px;
     white-space: nowrap;
 }
 

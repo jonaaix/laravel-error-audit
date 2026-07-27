@@ -2,6 +2,14 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- The channel divider in the report email is now a filled, full-width bar —
+  dark for log channels, indigo for the queue section — instead of a thin
+  underline that was easy to scroll past.
+
 ## [1.2.0] - 2026-07-27
 
 ### Changed

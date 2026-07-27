@@ -143,7 +143,8 @@ function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
 it('separates the issue list into one section per channel, queue always last', function (): void {
    $html = (new ErrorAuditMail(multiChannelReport()))->render();
 
-   expect(substr_count($html, 'class="audit-channel-divider"'))->toBe(3)
+   expect(substr_count($html, '<table class="audit-channel-divider'))->toBe(3)
+      ->and($html)->toContain('class="audit-channel-divider audit-channel-divider-queue"')
       ->and($html)->toContain('DAILY')
       ->and($html)->toContain('NGINX')
       ->and($html)->toContain('QUEUE')
@@ -160,5 +161,5 @@ it('marks a failed job issue with a queue badge', function (): void {
 it('draws no channel divider when every issue shares one channel', function (): void {
    $html = renderAudit();
 
-   expect($html)->not->toContain('class="audit-channel-divider"');
+   expect($html)->not->toContain('<table class="audit-channel-divider');
 });
