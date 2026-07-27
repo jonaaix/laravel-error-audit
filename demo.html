@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<title>Acme IMS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<style>
+@media (prefers-color-scheme: dark) {
+body, .wrapper, .body { background-color: #18181b !important; }
+.inner-body { background-color: #27272a !important; border-color: #3f3f46 !important; }
+.content-cell, .content-cell p { color: #d4d4d8 !important; }
+h1, h2, h3, .audit-title, .audit-card-title, .audit-card-count, .header a { color: #fafafa !important; }
+.audit-card { background-color: #27272a !important; border-color: #3f3f46 !important; }
+.audit-card-detail, .audit-card-foot { border-color: #3f3f46 !important; }
+.audit-card-foot { background-color: #1f1f21 !important; }
+.audit-foot-time { color: #fafafa !important; }
+.audit-card-value { color: #d4d4d8 !important; }
+.audit-card-channel { background-color: #27272a !important; border-color: #3f3f46 !important; color: #d4d4d8 !important; }
+.audit-badge-prio { background-color: #27272a !important; border-color: #3f3f46 !important; }
+.audit-badge-queue { background-color: #1e1b4b !important; border-color: #4338ca !important; color: #c7d2fe !important; }
+.audit-channel-divider { background-color: #3f3f46 !important; }
+.audit-channel-divider-queue { background-color: #3730a3 !important; }
+.audit-summary-meta, .audit-summary-delta { color: #d4d4d8 !important; }
+.audit-summary { background-color: #3f3f46 !important; }
+.audit-period, .audit-summary-footnote, .audit-card-origin, .audit-card-foot-meta, .subcopy p { color: #a1a1aa !important; }
+.panel-content { background-color: #3f3f46 !important; }
+.subcopy { border-color: #3f3f46 !important; }
+}
+</style>
+</head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #3f3f46; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
+
+<table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #f4f4f5; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+
+
+<!-- Email Body -->
+<tr>
+<td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #f4f4f5; border-bottom: 1px solid #f4f4f5; border-top: 1px solid #f4f4f5; margin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 600px; background-color: #ffffff; border-color: #e4e4e7; border-radius: 6px; border-width: 1px; margin: 0 auto; padding: 0; width: 600px;">
+<!-- Body content -->
+<tr>
+<td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 20px;">
+<h1 class="audit-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 12px; text-align: start; font-size: 20px; font-weight: bold; color: #18181b; margin: 0 0 2px 0; letter-spacing: -0.01em;">Laravel Error Audit – 23.07.2026 – 1 day</h1>
+<p class="audit-period" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 12px; color: #71717a; margin: 0 0 16px 0;">Acme IMS · 22.07.2026 07:00 – 23.07.2026 07:00</p>
+<table class="audit-summary" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: collapse; border-radius: 5px; margin: 0 0 5px 0; background-color: #fdeaea; border-left: 4px solid #DC2626;">
+<tr>
+<td class="audit-summary-count" width="70" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 20px; font-weight: 600; line-height: 1.1; white-space: nowrap; padding-right: 8px; padding: 9px 12px; vertical-align: middle; color: #DC2626;">53</td>
+<td class="audit-summary-label" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding-left: 0; width: 100%; padding: 9px 12px; vertical-align: middle; color: #DC2626;">Errors</td>
+<td class="audit-summary-meta" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #52525b; white-space: nowrap; padding: 9px 12px; vertical-align: middle;">4 types</td>
+<td class="audit-summary-delta" width="64" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #52525b; white-space: nowrap; padding-left: 8px; padding: 9px 12px; vertical-align: middle;">▲ +71%</td>
+</tr>
+</table>
+<table class="audit-summary" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: collapse; border-radius: 5px; margin: 0 0 5px 0; background-color: #fef6e0; border-left: 4px solid #B45309;">
+<tr>
+<td class="audit-summary-count" width="70" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 20px; font-weight: 600; line-height: 1.1; white-space: nowrap; padding-right: 8px; padding: 9px 12px; vertical-align: middle; color: #B45309;">82</td>
+<td class="audit-summary-label" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding-left: 0; width: 100%; padding: 9px 12px; vertical-align: middle; color: #B45309;">Warnings</td>
+<td class="audit-summary-meta" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #52525b; white-space: nowrap; padding: 9px 12px; vertical-align: middle;">2 types</td>
+<td class="audit-summary-delta" width="64" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #52525b; white-space: nowrap; padding-left: 8px; padding: 9px 12px; vertical-align: middle;">▼ -15%</td>
+</tr>
+</table>
+<p class="audit-summary-footnote" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 11px; color: #a1a1aa; margin: 6px 0 16px 0;">Change compared to the preceding 1 day.</p>
+<table class="audit-chart" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: collapse; margin: 0 0 16px 0;">
+<tr>
+<td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAGQCAIAAAAx1w4JAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAg
+AElEQVR42u3dW1tUd54v8AVVxVkQPHEQgpIoMUZzMOmkNR3TSUwn9jx75mpupt/D7GdfzGuYi/3s
+eQ3Tc7fnrvfz5PQksdPmZGviKQRQVERLKA4lKKBWFbUvaoZhwMiCwKKAz+fJhSwWqR/r/+f3r2+t
+qrVK8vl8AAAAwOZT6hAAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAACsR/FiK2h0NH3l
+yrXBweHJyal8Pl9TU717d9OhQ8+WlZXN3W1sLH3hQlcqNZLJZGtrazo62g8c2FdSUmJEAQAAQiop
+qhvTnz17oaurt7S0tLFxZ21tTS43k0qNjI9P1NRUf/DB2xUV5YXdhoaGP/30yyAIWlubKyrKU6nR
+dPpuW1vL8eO/NqIAAAAhFdcZwubmxnw+f+jQs+Xl5bMbv/nm7JUr1y9f7j5y5HAQBDMzM6dPnykp
+KXn//bcaGuoL+3z77bne3mt9fTc6OtoNKgAAQBjF9RnC5uZdr7zywtw0GATBwYOdQRAMD48Wvrx9
+e3Bycqqz8+nZNBgEwZEjhxOJeFdXrxEFAABYl4Hw8SWWlgZBkEgkCl8mk0NBELS2Ns/dJx6PNzXt
+SqfHJyenDCoAAMAGCYRXrlwPgqC5eVfhy/HxiSAI6uvr5u1W2JJOjxtUAACAMOJFW9mjR5mJiXs9
+PX19fTd2727q7Hy6sH1qajoWi82eMJxVWVkZBIEzhAAAAOs4EBauEFP4d0VF+dGjr8y9VEw2m43H
+Y4/5TeKxwncNKgAAwHoNhC0tjWVlZTMzM9PTD1Kpka+++mt//+3XX3+5srLiCT+1jNtnTEzcNwMA
+AFjvHv6f/72k/cv/5/9y0DaJ2tqa9RcIW1tbWltbZr/s6en77rvvv/wy8957x4MgSCQSDx8+WvhT
+uVwuCIJ4PG7UAQAAwlgH8Wn//o6BgWQyOTgxca+2dktVVeX4+EQmk5n3McLp6ekgCKqqKlYwLgMA
+QPEbXuL+ngYzq3RdVLllS3XwnxeM+bmriRa21NXVGlQAAICNEwgLYa+qqioIgpaWxiAIBgaSc3fI
+5XJ37gxVV1fV1m4xqAAAAOsvEPb19WcymXkbu7uvplIj27bV19VtCYKgqWlXfX1dT0/f2Njd2X3O
+nr2YyWRnb00BAADAoorrM4Rff/3Xb74p2bVrR23tlkQi/vDho1RqZHx8orq66tixX83udvToKx99
+dOrDDz9va2upqChPpUZGR9M7d24XCAEAANZrIDx27NX+/lt3746PjIxls9lEIrF1a+1LLz2/f3/H
+3EvINDTUnzz5zvnzl5PJwUwmW1NTdfjwgYMHO2OxmBEFAABYl4Fwz562PXvawuxZV7flzTdfN34A
+AADLVuoQAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQA
+AAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAA
+CIQAAAAIhAAAAJtYST6fdxQAAAA2IWcIAQAABEIAAAA2k7hDAAAA61r/H/6wpP2f+uMfHTQKnCEE
+AAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAA
+EAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAI
+AQAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAA
+AARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAE
+QgAAAIHQIQAAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAI
+AQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAACCVebAU9fPiw
+u/vqwEByYuJ+Pp+vra1pb2997rn9paX/LbuOjaUvXOhKpUYymWxtbU1HR/uBA/tKSkqMKAAAwLoM
+hAMDydOnz2QymR07tnV0tM/MzNy5M/TDD5eTyaF33/3NbCYcGhr+9NMvgyBobW2uqChPpUbPnbs4
+PDx6/PivjSgAAMC6DISVleW1tVtef/2lhob6wpZcLvfFF18nk4N9ff3PPLMnCIKZmZnTp8+UlJS8
+//5bs7t9++253t5rfX03OjraDSoAAEAYxfUZwu3bt508+fZszAuCIBaLHT58IAiCZHKwsOX27cHJ
+yanOzqfn7nbkyOFEIt7V1WtEAQAA1mUgfKzKyoogCGZmZgpfJpNDQRC0tjbP3Scejzc17Uqnxycn
+pwwqAADABgmE9+7dD4KgtnZL4cvx8YkgCOrr6+btVtiSTo8bVAAAgA0SCK9cuR4Ewd69TxW+nJqa
+jsViiURi3m6VlZVBEDhDCAAAsEECYTI5eOPGwFNP7Z49JZjNZuPx2MI9Cxuz2axBBQAACCNezMWN
+j098+eV31dVVr7320qI75/NL/v9PTNw3AwAA2Gw8Dd48amtrnrxD8Z4hvH9/snCzwXfeeaO8vHx2
+eyKRyGZzC/fP5XJBEMTjcaMOAAAQRpHGp/v3Jz/++FQ2mztx4jd1dbVzv1VVVTk+PpHJZOZ9jHB6
+ejoIgqqqihWMywAAUPzSS9zf02BmFeMZwsnJqU8++XM2mz1x4s25Nxss+LmriRa2zEuPAAAArJtA
+ODk59fHHp7LZ7IkTxxsati7coaWlMQiCgYHk3I25XO7OnaHq6qrZu1MAAACwngLh1NT0J5/8OZvN
+nTjx5sI7DRY0Ne2qr6/r6ekbG7s7u/Hs2YuZTLaz82kjCgAAEFJxfYbws8/+cu/e/W3b6i9e/Gnh
+d/ft29vYuDMIgqNHX/noo1Mffvh5W1tLRUV5KjUyOpreuXO7QAgAALBeA+HU1HQQBKOj6dHRx3wy
+tqlpV2NjEARBQ0P9yZPvnD9/OZkczGSyNTVVhw8fOHiwMxaLGVEAAICQSvLLuH8fAABQNPr/8Icl
+7f/UH//ooFFQ6hAAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAArHNuOwEAALBJOUMIAAAgEAIA
+ALCZxB0CAABY1y4cO7ak/Q+fPj3777/8y44l/ewb/zi8Sr9F8VSyqThDCAAAIBACAAAgEAIAACAQ
+AgAAIBACAAAgEAIAACAQAgAAIBACAAAgEAIAACAQAgAAUIziDgEAALAiLhw7tqT9D58+7aCtLWcI
+AQAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAA
+AARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAE
+QgAAAIEQAAAAgRAAAACBEAAAAIEQAAAAgRAAAACBEAAAAIEQAAAAgRAAAACBEAAAAIEQAAAAgRAA
+AACBEAAAAIEQAAAAgRAAAACBEAAAAIEQAAAAgRAAAACBEAAAAIEQAAAAgRAAAACBEAAAAIEQAAAA
+gRAAAEAgdAgAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAE
+QgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIAAAAEQgAAAARCAAAABEIA
+AAAEQgAAAARCAAAAgRAAAACBEAAAAIEQAACAjStezMX19PSdOfPD7t1Nb711dOF3x8bSFy50pVIj
+mUy2tramo6P9wIF9JSUlBhUAAGB9B8Jz5y7++GPPz313aGj400+/DIKgtbW5oqI8lRo9d+7i8PDo
+8eO/NqgAAADrNRDmcrnTp8/099/au7ft+vWBhTvMzMycPn2mpKTk/fffamioL2z89ttzvb3X+vpu
+dHS0G1cAAIBFFeNnCE+d+rq//9b+/R2vv34kn88v3OH27cHJyanOzqdn02AQBEeOHE4k4l1dvQYV
+AAAgjGI8Q9je3trQUP/iiwczmcxjd0gmh4IgaG1t/m+/STze1LTr5s3bk5NT1dVVhhYAAGD9BcLZ
+93w+7uxgEATB+PhEEAT19XXzttfX1928eTudHhcIAQAAFrUubzsxNTUdi8USicS87ZWVlUEQTE5O
+GVcAAICNGQiz2Ww8Hlu4vbAxm80aVwAAgEXFN9Iv83NvMf05ExP3zQAAADabX/I0eGWfQhdPJRtV
+bW3Nk3dYl2cIE4lENptbuD2XywVBEI/HDTwAAMCi1mV2qqqqHB+fyGQy8z5GOD09HQRBVVXFSsVl
+AADYeH7J0+CVfQpdPJVsWuvyDGHh+qLp9Pi87YUtdXW1xhUAAGBjBsKWlsYgCAYGknM35nK5O3eG
+qquramu3GFcAAICNGQibmnbV19f19PSNjd2d3Xj27MVMJtvZ+bRBBQAACGO9Xn/l6NFXPvro1Icf
+ft7W1lJRUZ5KjYyOpnfu3C4QAgAAbPBA2NBQf/LkO+fPX04mBzOZbE1N1eHDBw4e7IzFYgYVAABY
+tr/8y44l7f/GPw6v31+2JL/Um/cBAAAIhBsiEJYabwAAgM1JIAQAANik4g4BAACsa5+0ti5p/xMD
+A7P//rd/2rqkn/2Hf767LirZGCI4Js4QAgAAbFICIQAAgEAIAACAQAgAAIBACAAAgEAIAACAQAgA
+AMB65z6EAAAA/+WNfxzePL+sM4QAAACblEAIAACwSXnLKAAAwH/5t3/auqT9/+Gf767fX9YZQgAA
+gE1KIAQAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAA
+EAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAAQCAEAABAIAQAAEAgBAAB4grhDAAAA
+bDCftLYuaf8TAwOb80A5QwgAALBJCYQAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAAC
+IQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEA
+AAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAACAQAgAAIBACAAAgEAIAACAQAgAAIBACAAAgEAIAACA
+QAgAAIBACAAAgEAIAACAQAgAAIBACAAAgEAIAACAQAgAAIBACAAAgEAIAACAQAgAAIBACAAAgEAI
+AACAQAgAAIBACAAAgEAIAACAQAgAAIBACAAAIBA6BAAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEA
+AAACIQAAAAIhAAAAAiEAAAACIQAAAEUovk7rHhtLX7jQlUqNZDLZ2tqajo72Awf2lZSUGFEAAICN
+HAiHhoY//fTLIAhaW5srKspTqdFz5y4OD48eP/5rIwoAALBhA+HMzMzp02dKSkref/+thob6wsZv
+vz3X23utr+9GR0e7QQUAAAhj/X2G8PbtwcnJqc7Op2fTYBAER44cTiTiXV29RhQAAGDDBsJkcigI
+gtbW5rkb4/F4U9OudHp8cnLKoAIAAGzMQDg+PhEEQX193bzthS3p9LhBBQAA2JiBcGpqOhaLJRKJ
+edsrKyuDIHCGEAAAYMMGwmw2G4/HFm4vbMxmswYVAAAgjJJ8Pr++Kv73f/9/uVzu7//+f8zb3tfX
+/9VXZ15++dBzz+0P+b/68cceMwAAANioFg1H6+8MYSKRyGZzC7fncrkgCOLxuFEHAAAIY/3Fp6qq
+yvHxiUwmM+9jhNPT00EQVFVVrGBcBgAA2MDW3xnCn7uaaGFLXV2tQQUAANiYgbClpTEIgoGB5NyN
+uVzuzp2h6uqq2totBhUAAGBjBsKmpl319XU9PX1jY3dnN549ezGTyXZ2Pm1EAQAAQlp/VxkNgmBs
+LP3RR6fy+XxbW0tFRXkqNTI6mt65c/u77/4mFosZVAAAgA0bCIMgGB+/d/785cHBVCaTramp2rOn
+7eDBTmkQAABg4wdCAAAAfqFShwAAAEAgBAAAQCAEAABAIAQAAEAgBAAAYOOIOwRhjI2lL1zoSqVG
+MplsbW1NR0f7gQP7SkpKCt/94x///QkXa33ppecPHuyMppKCGzcGuruvptN3c7mZysqKpqadhw4d
+qKmpjvKYFPT33/rppyvp9N0gCOrqavfv7+joaF+lMerp6Ttz5ofdu5veeuvo8qqNppLw+6xqJQ8f
+PuzuvjowkJyYuJ/P52tra9rbW597bn9paWnElYyOpq9cuTY4ODw5OZXP52tqqnfvbjp06NmysrK1
+Gp2C7u6rZ878UF+/9W/+5t2IKzl9+rtr124u/JGTJ9/Ztq0++mPy6FGmu/vqrVvJe/fuP3qUSSQS
+b7316127dkRWSZQ9NswxiabHhqkkgh4bsldE0GOX1LVWtceGqSSaHhvmUSLrsWHmQDRrcfhHWe21
+eNFKIluLF62kqOZJNGvxopVEthaHPCaruhYLhIsbGhr+9NMvgyBobW2uqChPpUbPnbs4PDx6/Piv
+Czvs2dMWBI95spJOj6fT42VlicgqCYLg3LmLP/7YU11d9cwze8vKEmNjd69evdHff/t3v3urvr4u
+ykp++OHSpUvdFRUVu3c3JxLxO3dSX33118HB4aNHX1nxMSr81r+k2mgqCb/PqlYyMJA8ffpMJpPZ
+sWNbR0f7zMzMnTtDP/xwOZkcevfd36z4OvSESs6evdDV1VtaWtrYuLO5eVcuN5NKjXR19d68efuD
+D96uqCiPfnQK7t27//33l9ZkdIIgePDgUWlpaXv77nnby8vLop+xIyOjn3/+1YMHDwuzpaws8eDB
+w9W46esTKomsx4Y5JtH02DCVRNBjQ/aKCHrskrrWqvbYMJVE02PDPEpkPTbMHIhmLQ7/KKu9Fi9a
+SWRr8aKVFNU8iWYtDlNJNGtxyGOy2muxQLiImZmZ06fPlJSUvP/+Ww0N//F6wLffnuvtvdbXd6Pw
+WuyxY68+9mf/9KdPE4n4nj1tkVVy//7kjz/21NfXffDB27Oz5ObN26dOff3DD5d++9tjkVUyNDR8
+6VL39u0N77zzRuHlpXw+//XXZ/v6bjQ17dy796mVGqBcLnf69Jn+/lt797Zdvz6wvGqjqSTkPhFU
+UllZXlu75fXXX5o9ILlc7osvvk4mB/v6+p95Zk9klTQ3N+bz+UOHni0v/6/15ptvzl65cv3y5e4j
+Rw5HOTpzffXVX6urq1bjFHKYSh48eFBTU3Xs2K9WtbmFqeT+/clPP/0yFov/7ndv7dy5fa0qiabH
+hqkkmh4bppJoemyYXhFNjw3ZtSLosWEqiabHhnmUaHpsmDkQzTwJ+SgRzJMwlUQzT8JUUjzzJJq1
+OGQlEazFISuJYC32GcJF3L49ODk51dn59Ow4BUFw5MjhRCLe1dX7hB+8c2conb779NN7EolEZJWM
+jqaDINi796m5rxm0tbVUVFSMjKSjPCZXr94obJx9s0FJSclrr71UXV11+XL3Cg7QqVNf9/ff2r+/
+4/XXjzz2TWXLHsEVryTkPhFUsn37tpMn3557QGKx2OHDB4IgSCYHo6ykuXnXK6+8MHcFCoKg8Pa/
+4eHRiEdnVldXbyo1cuTIoWw2F/3oBEHw8OGjioqK1W5uYSo5e/ZCJpP97W9/vXppcNl/FyveY8NU
+Ek2PDVNJND02TK+IpseG7FoR9NgwlUTTY8M8SjQ9NswciGaehHyUCOZJmEqimSdhKimeeRLNWhyy
+kgjW4pCVRLAWC4SLSCaHgiBobW2euzEejzc17Uqnxycnp37uBy9f7gmC4Nlnn4myksJZ7EwmO3ef
+fD6fy+UqK8ujrCSdvltSUrJjx7a5+8Risba2lrt3J55w3Jaqvb31+eef/dWvXpqZmVnZEVzxSkLu
+E00lC1VWVhRerFrzSgrvk1nBZ/lLqmR8/N7331/au7etpaVpNYYpTCUPHjxc8bfLLqOS6ekHAwPJ
+3bubt2/ftraVRNNjw1QSTY8NU0lkPXbRXhFZjw3TtaLpscvrn6vRY5f3KCveY8PMgWjmSchHiWCe
+LPv3XfF5suxK1mSeRLMWh6wkgrU4TCXRrMXeMhos9uxwIgiChZ8Mqa+vu3nzdjo9Xl1d9bilevzO
+naG2tpYVvMxAmEp27NhWUVHR29u3b9/eqqrK2ZdYMpnMCr43MkwludxMPB5b+InYwgEZH5947HFb
+htnf6+de41veCK5GJSH3iaaShe7dux8EQW3tljWv5MqV60EQNDfvir6SfD5/+vSZ8vKyV199MQiC
+mZl89KOTzWZzuVwEgXDRSpLJoXw+P2+hKpIZuxo9Nkwl0fTYMJVE1mMX7RWR9dgwXSuaHru8/rka
+PXZ5j7LiPTbMHIhmnoR8lAjmybJ/3xWfJ8uuZE3mSTRrcZhKolmLw1QSzVosEC5iamo6FostfIGk
+srIyCIKfe2Wl8DHllX3pOkwlsVjsjTde/eyz03/60ycvvniwubnx0qWfrly5XrhgUZSVVFVVjI9P
+TE9PFzbOunt3vPCiS5GP4CZUaP0r+PHOpXr0KDMxca+np6+v78bu3U2dnU9HX8Ply92jo2Nvv31s
+la5xGkbhr2NgIDk4mJqaelC42ltLS+Nzz+0vvHIcmcK1Kxsatvb19Xd3Xy2sWw0NW597bl9ra8va
+TtfV6LFhRNNjw1jDHjuvV6xhj13zrrWkSqKp9gmPsno9NswciGaeFM+Kv+xKVnyeLLWStZ0n0azF
+YSqJZi0OU0k0a7FAuIhsNhuPP+YaPoWN2Wx24bemp6dv3BjYtq1+ZS/LHrKSpqZdH3zw288+O/3t
+t98Xtrz22kv79nVEXMnu3c137qQuXOh67bWXZ3e4detOX19/8Y/gJpRMDt64MfDUU7tX/DKJYRQ+
+P134d0VF+dGjr6ze7UmemH/GL1zoeuaZPS0tTWs4FuXlZXv2tD169Kimpjoej09PT6dSo11dvdeu
+9Z848ebWrdENUGEp6u6+evPm7T17WvfubZucnLp27eYXX3z96qsvdHY+s1aHaJV6bEgR9Ngw1qrH
+LuwVa9Vj17ZrLbWSaKr9uUdZ7R4bZg5EM0+KZ8VfXiWrMU/CV1IM8ySatThMJdGsxWEqiWYtFgiX
+6QlvM+jqujIzMxPZS9fzKpmefnD+fNf09IPGxp0zMzOp1Mi5c5fy+WD//o4oK9m3b++1a/29vdfu
+3p1obNwZj8dSqZHBweHW1ub+/lsr+/GwFR/BzWZ8fOLLL7+rrq567bWX1qSAlpbGsrKymZmZ6ekH
+qdTIV1/9tb//9uuvvxzlCbGZmZmvvjpTWVmxgpc2XZ5EIvHGG7/673M1f+nST+fP//iXv5xZpZsi
+Plbhk3LDw6N/+7fvzZ6Gev75zj/96dOzZy+2t7dF8L7WYuixC+LomvXYudakxy6pV6xqj13zrrWk
+SqKp9gmPslY9NswciGYtLp4V/wmVRDyrF1ZSDPNkbdfiuZWs7Vo8t5Jo1mKBcPEnZw8fPlq4PZfL
+BUEQj8cXPIXK9PZeq6ysaG9vjb6SBw8efvTRFw8fPnr77WOFV1ZGR9Pffff9d999PzU19eKLz0dW
+SSwWO3HizYsXf+rvv3X5cndZWaKxcefJk+9cuXItCILV+0jJLx/BzaZwLeMgCN555415VxiLTGtr
+y9y3PfT09H333fdffpl5773jkdVw8eJPY2N33333N8XwasU8JSUlhw4dGBhIjo6mx8cn6upqo1oa
+80EQvPrqi3PflFheXv7ss8+cO3cxmRxck7fqrV6PDSOaHhtG9D3253pF9D22GLpW+EqiqfbJj7La
+PTbMHIhmnhTPir/USlZvnoSvpBjmSTRr8fLmyWqsxWEqiWYtFggXUVVVOT4+kclk5k3N6enpIAiq
+qua/anLlyvVMJnPw4P4Vv7t3mEouXfrp3r37s89UgiDYtq3+vfeOf/jh55cv93R0tK/Ix5RDHpNE
+IvHyy4defvnQ3H3S6bulpaVbt9YW7QhutjT48censtnciRO/iSxmLGr//o6BgWQyOTgxcW+1L8BQ
+MDqavnTpp/37O5qadhXtYG3f3jA6mr5/fzKykSrc8H3hX2uhgLX6/O3q9dgwoumx4Z9JRNZjn9Ar
+Iu6xxdO1wlQSTbVLfZQV77Fh5kA086R4VvwlVbKq82TZxyT6eRLZWvxL5snKrsVhKolmLRYIF1Ff
+X3fnzlA6PT7v1h/p9PjsYMzK5/M//XQlFoutxnuHwlQyODicSMTnves6Fovt27f322+/Hx4eXZE/
+6SUdk7kePnw4NDTS2Lgzymdyy652w5ucnPrkkz9ns9kTJ95saNhaVLVt2VJdqDCap9f9/bfy+XxP
+T19PT9+8bz148OBf//X/BkHwd3/3/pYtNWt4TArXk4zyFe6tW2v7+4PJyanZy2kWZDKZQmOJ/iCs
+ao8NI5oeu2yr1GOf3Cui7LHF07XCVBJNtct7lJXtsWHmQDTzpHhW/PCVrPY8+SXHJOJ5cvXqjWjW
+4l9yTFZ2LQ5TSTRrsfsQLqKlpTEIgoGB5NyNuVzuzp2h6uqqeX8hN24MTE5OdXQ8tRqXRQpXST6X
+m1l4w5b/vGtWSfTHZK5Ll7pnZmb27dtbtCO4qdLgxx+fymazJ04cL7Y0ONsKq6oiemtxQ8PWjo72
+hf+VlpaWlZUV/r3mbyUdHEyVlpZGOViF2HP9+s152wv3KY7y8jbR9NiQmTSCHrtsq9FjF+0VkfXY
+4ulaYSqJptplP8rK9tgwcyCaeVI8K37ISiKYJ7/kmEQ8TyJbi3/JMVnZtTjc304Ua7EzhItoatpV
+X1/X09O3Z0/b7PCfPXsxk8keOnRg3s7/eSX0fWtVSWPjznR6/PLl7rm1TU9Pd2bW9UIAAAOBSURB
+VHdfLS0tbWraGf0x+Y/nUPn8jz/2dHX1Njc3trW1FO0IbhJTU9OffPLnbDYX8VUrF+rr629ra57X
+37u7r6ZSI9u21dfVRbR4t7e3PvYDabdvD1ZWVhw9+kqUxySVGqmr2zL3MyS5XO777y/dvTuxb9/e
+KHPp9u0NO3du7+npa25u3L37P86JjYyM9fZeq66uWql+siSr2mPDiKbHLienrk6PDdMroumxxdO1
+wlQSTbVhHiWaHhtmDkQzT4pnxQ9TSTTzJEwlRTJPIluLwxyTaNbiMJVEsxYLhIs7evSVjz469eGH
+n7e1tVRUlKdSI6Oj6Z07t8+7N8vgYGps7G5LS+PqPYtdtJLnn3/21q0758//ODCQ3LVrR1lZ4v79
+yRs3bmWz2VdffWHeuebVPiaXLv2UzWZjsdjk5HQyOTg5OdXYuPPNN18r2hHcPD777C/37t3ftq3+
+4sWfFn533769jY0RPa/9+uu/fvNNya5dO2prtyQS8YcPH6VSI4V7ah879qvNOTrXrw/09vbt2LGt
+rq42kYhPTk6lUiPT0w927drxyisvRFzMsWOvfvTRF59/frq5uXHr1tp79+7fvj1YUlJy7NirC2+J
+vtoi6LGLiqzHhhFBjw3ZKyLoscXTtcJUEk21YR4lsh4bZg5EsxYXz4q/aCWRzepFKymqeVIkoxPZ
+WhzmmESwFguEi2toqD958p3z5y8nk4OZTLampurw4QMHD3bOe9tu4aXrVb038aKVVFSU//7373R1
+9Q4MJHt7r+VyufLy8qamnQcO7FvZG3aFOSb3709eu3Yzn8+Xl5dt29bw8suH1uSqgOFHcPOYmpoO
+gmB0ND06mn7s61WNjdHljf7+W3fvjo+MjGWz2UQisXVr7UsvPb9/f0cRXu0zGvv3752ZyQ0NjYyO
+9s/MzCQSiYaGrS+8cPDpp9ujz2A1NdW///27Fy503bqVHBxMlZUl2tpaDh16dk1O0UTQYxcVWY8N
+I4IeG7JXRNBji6drhakkmmrDPEpkPTbMHIhmLS6eFX/RSiKb1YtWUlTzpEhGJ7K1OMwxiWAtLsm7
+HRsAAMCm5KIyAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAA
+AiEAAAACIQAAAAIhAAAAAiEAAAACIQAAAAIhAAAAAiEAAAAr5P8DAJ/xi24RA3wAAAAASUVORK5C
+YII=" alt="Errors and warnings over time" width="600" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: block; width: 100%; max-width: 600px; height: auto; border: 0;">
+</td>
+</tr>
+</table>
+<h2 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #18181b; font-size: 15px; font-weight: bold; margin-top: 20px; margin-bottom: 8px; text-align: start;">Issues</h2>
+<table class="audit-channel-divider" width="100%" cellpadding="0" cellspacing="0" role="presentation" bgcolor="#3f3f46" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin: 32px 0 12px; background-color: #3f3f46; border-radius: 6px;">
+<tr>
+<td class="audit-channel-divider-label" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #ffffff; padding: 10px 14px; white-space: nowrap;">DAILY <span class="audit-channel-divider-hint" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 500; letter-spacing: normal; color: #d4d4d8;">· log channel</span>
+</td>
+<td class="audit-channel-divider-count" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #d4d4d8; padding: 10px 14px; white-space: nowrap;">3 issues</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #DC2626;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fdeaea; color: #DC2626;">ERROR</span>  <span class="audit-badge audit-badge-prio" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid #ddd6fe; font-weight: 600; background-color: #6D28D9; color: #ffffff; border-color: #6D28D9;">✧ PRIO CRITICAL</span>  <span class="audit-badge audit-badge-new" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #ffffff; border: 1px solid #e4e4e7; color: #52525b;">NEW</span>
+</td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>24</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">Nightly reconciliation writes into a missing table</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">Illuminate\Database\QueryException</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-key" valign="top" width="52" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Cause</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">A migration adding the reconciliation table was never applied on this environment.</td>
+</tr>
+<tr>
+<td class="audit-card-key" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Suggestion</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">Run the pending migration, then re-queue the failed batch from the Horizon dashboard.</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">05:41</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">daily</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #DC2626;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fdeaea; color: #DC2626;">ERROR</span>  <span class="audit-badge audit-badge-prio" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid #ddd6fe; font-weight: 600; background-color: #f5f3ff; color: #7C3AED; border-color: #ede9fe;">✧ PRIO MEDIUM</span> </td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>8</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">Payment provider declines cards issued outside the EU</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">App\Exceptions\PaymentDeclined</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-key" valign="top" width="52" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Cause</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">The provider profile is configured with an EU-only acquiring route.</td>
+</tr>
+<tr>
+<td class="audit-card-key" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Suggestion</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">Confirm the intended market coverage with the provider dashboard settings.</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">03:49</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">daily</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #B45309;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fef6e0; color: #B45309;">WARNING</span>  <span class="audit-badge audit-badge-prio" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid #ddd6fe; font-weight: 600; background-color: #ffffff; color: #8B5CF6; border-color: #ddd6fe;">✧ PRIO LOW</span> </td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>19</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">Deprecated null coalescing on a typed property</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">ErrorException</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-key" valign="top" width="52" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Cause</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">A dependency calls a setter that PHP 8.4 flags as deprecated.</td>
+</tr>
+<tr>
+<td class="audit-card-key" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Suggestion</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">Update the aaix/legacy-import package to ^3.2 where this is fixed.</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">05:06</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">daily</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="audit-channel-divider" width="100%" cellpadding="0" cellspacing="0" role="presentation" bgcolor="#3f3f46" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin: 32px 0 12px; background-color: #3f3f46; border-radius: 6px;">
+<tr>
+<td class="audit-channel-divider-label" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #ffffff; padding: 10px 14px; white-space: nowrap;">NGINX <span class="audit-channel-divider-hint" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 500; letter-spacing: normal; color: #d4d4d8;">· log channel</span>
+</td>
+<td class="audit-channel-divider-count" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #d4d4d8; padding: 10px 14px; white-space: nowrap;">1 issue</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #B45309;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fef6e0; color: #B45309;">WARNING</span>  <span class="audit-badge audit-badge-prio" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid #ddd6fe; font-weight: 600; background-color: #ffffff; color: #a1a1aa; border-color: #e4e4e7;">✧ PRIO NOISE</span> </td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>63</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">Sporadic upstream timeouts from the image resizer</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">UpstreamTimeout</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-key" valign="top" width="52" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Cause</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">The resizer cold-starts under low traffic and misses the 5s proxy timeout.</td>
+</tr>
+<tr>
+<td class="audit-card-key" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Suggestion</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">Raise proxy_read_timeout for the resizer location or keep one instance warm.</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">10:14</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">nginx</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="audit-channel-divider audit-channel-divider-queue" width="100%" cellpadding="0" cellspacing="0" role="presentation" bgcolor="#4338ca" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin: 32px 0 12px; border-radius: 6px; background-color: #4338ca;">
+<tr>
+<td class="audit-channel-divider-label" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #ffffff; padding: 10px 14px; white-space: nowrap;">↻ QUEUE <span class="audit-channel-divider-hint" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 500; letter-spacing: normal; color: #d4d4d8;">· failed jobs</span>
+</td>
+<td class="audit-channel-divider-count" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; color: #d4d4d8; padding: 10px 14px; white-space: nowrap;">2 issues</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #DC2626;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fdeaea; color: #DC2626;">ERROR</span> <span class="audit-badge audit-badge-queue" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca;">↻ QUEUE</span>  <span class="audit-badge audit-badge-prio" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid #ddd6fe; font-weight: 600; background-color: #ede9fe; color: #6D28D9; border-color: #ddd6fe;">✧ PRIO HIGH</span>  <span class="audit-badge audit-badge-new" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #ffffff; border: 1px solid #e4e4e7; color: #52525b;">NEW</span>
+</td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>17</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">Order sync jobs exhaust retries against the ERP endpoint</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">RuntimeException</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-key" valign="top" width="52" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Cause</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">The ERP API rejects the sync payload since the last schema change.</td>
+</tr>
+<tr>
+<td class="audit-card-key" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a1a1aa; padding: 2px 12px 8px 0;">Suggestion</td>
+<td class="audit-card-value" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 13px; line-height: 1.5; color: #3f3f46; padding: 0 0 8px 0;">Replay one failed job with horizon:forget after deploying the new mapping.</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">04:52</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">failed-jobs</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table class="audit-card" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; width: 100%; border-collapse: separate; border: 1px solid #e4e4e7; border-radius: 6px; margin: 0 0 10px 0; background-color: #ffffff; border-left: 4px solid #DC2626;">
+<tr>
+<td class="audit-card-head" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px 0 14px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-badges" valign="top" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top;">
+<span class="audit-badge" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #fdeaea; color: #DC2626;">ERROR</span> <span class="audit-badge audit-badge-queue" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; background-color: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca;">↻ QUEUE</span>  </td>
+<td class="audit-card-figure" valign="middle" align="right" width="90" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; vertical-align: top; white-space: nowrap;">
+<span class="audit-card-count" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 22px; font-weight: 700; line-height: 1; color: #18181b; vertical-align: middle; white-space: nowrap;"><span class="audit-card-count-mark" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-weight: 700; color: #a1a1aa; margin-right: 1px;">×</span>4</span>
+</td>
+</tr>
+</table>
+<p class="audit-card-title" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 16px; font-weight: 600; line-height: 1.3; color: #18181b; margin: 10px 0 2px 0;">ExportTimeout</p>
+<p class="audit-card-origin" style="box-sizing: border-box; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #71717a; margin: 0 0 12px 0; word-break: break-word;">App\Exceptions\ExportTimeout</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-detail" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 12px 14px; border-top: 1px solid #f1f1f3;">
+<p class="audit-card-unanalysed" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 12px; font-style: italic; line-height: 1.5; color: #a1a1aa; margin: 0;">Not analysed — beyond the analysis budget for this report. Counted and tracked; it will be analysed on the next run if it persists.</p>
+</td>
+</tr>
+<tr>
+<td class="audit-card-foot" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 9px 14px; background-color: #fafafa; border-top: 1px solid #f1f1f3; border-radius: 0 0 5px 5px;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td class="audit-card-foot-meta" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 11px; color: #a1a1aa;">last seen <span class="audit-foot-time" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 12px; font-weight: 600; color: #3f3f46;">03:21</span>
+</td>
+<td class="audit-card-foot-channel" align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #a1a1aa; white-space: nowrap;">CHANNEL <span class="audit-card-channel" style="box-sizing: border-box; position: relative; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; font-weight: 400; letter-spacing: 0; color: #52525b; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 3px; padding: 1px 6px; margin-left: 2px;">failed-jobs</span>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e4e4e7; margin-top: 18px; padding-top: 14px;">
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; text-align: left; font-size: 12px; color: #71717a;">5 of 6 issue types analysed by AI.
+Analysis cost: 0.0087 USD (gemini-3.5-flash-lite).</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 600px; margin: 0 auto; padding: 0; text-align: center; width: 600px;">
+<tr>
+<td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 20px;">
+<p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; margin-bottom: 10px; color: #a1a1aa; font-size: 11px; text-align: center;">© 2026 Acme IMS</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
