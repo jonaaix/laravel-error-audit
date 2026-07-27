@@ -91,7 +91,9 @@ class GdChartRenderer implements ChartRenderer
       $plotTop = self::PADDING_TOP * self::SCALE;
       $plotBottom = $height - (self::PADDING_BOTTOM * self::SCALE);
 
-      $ceiling = $this->niceCeiling($maximum);
+      // The tallest stack IS the top of the chart. Rounding the ceiling up to
+      // a "nice" number wasted up to half the plot height as empty headroom.
+      $ceiling = max($maximum, self::AXIS_STEPS);
 
       $this->drawGrid($canvas, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceiling);
       $this->drawBars($canvas, $timeline, $series, $plotLeft, $plotRight, $plotTop, $plotBottom, $ceiling);
@@ -123,7 +125,7 @@ class GdChartRenderer implements ChartRenderer
 
          imagefilledrectangle($canvas, $left, $y, $right, $y + 1, $gridColour);
 
-         $this->text($canvas, (string) $value, $left - (7 * self::SCALE), $y + (4 * self::SCALE), $labelColour, alignRight: true);
+         $this->text($canvas, number_format($value, 0, ',', '.'), $left - (7 * self::SCALE), $y + (4 * self::SCALE), $labelColour, alignRight: true);
       }
    }
 
@@ -308,25 +310,6 @@ class GdChartRenderer implements ChartRenderer
     * Round the axis up to a readable step so the labels are whole numbers a
     * reader can divide in their head.
     */
-   private function niceCeiling(int $maximum): int
-   {
-      if ($maximum <= self::AXIS_STEPS) {
-         return self::AXIS_STEPS;
-      }
-
-      $magnitude = 10 ** max(0, (int) floor(log10($maximum / self::AXIS_STEPS)));
-
-      foreach ([1, 2, 2.5, 5, 10] as $factor) {
-         $step = $factor * $magnitude;
-
-         if ($step * self::AXIS_STEPS >= $maximum) {
-            return (int) ceil($step * self::AXIS_STEPS);
-         }
-      }
-
-      return $maximum;
-   }
-
    private function colour(GdImage $canvas, string $hex): int
    {
       [$red, $green, $blue] = sscanf(ltrim($hex, '#'), '%2x%2x%2x') ?? [0, 0, 0];

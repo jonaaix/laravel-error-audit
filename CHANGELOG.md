@@ -2,6 +2,17 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- The chart's vertical axis now tops out at the tallest stack instead of a
+  rounded-up "nice" ceiling that could waste up to half the plot as empty
+  headroom; axis labels carry thousands separators.
+- Chart colours are vivid now — saturated red for errors, bright amber for
+  warnings — so the two levels are distinguishable at a glance instead of
+  blurring into neighbouring earth tones.
+
 ## [1.6.0] - 2026-07-27
 
 ### Changed

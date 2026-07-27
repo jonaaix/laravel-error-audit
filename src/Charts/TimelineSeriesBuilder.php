@@ -22,9 +22,9 @@ use Aaix\LaravelErrorAudit\Data\TimelineBucket;
  */
 class TimelineSeriesBuilder
 {
-   private const ERROR_SHADES = ['#b91c1c', '#d03b3b', '#e05c5c', '#ea8080', '#f0a0a0'];
+   private const ERROR_SHADES = ['#b91c1c', '#dc2626', '#ef4444', '#f87171', '#fca5a5'];
 
-   private const WARNING_SHADES = ['#a3760f', '#c28f14', '#d4a520', '#e0bc55', '#ead89a'];
+   private const WARNING_SHADES = ['#d97706', '#f59e0b', '#fbbf24', '#fcd34d', '#fde68a'];
 
    public function __construct(private readonly int $maxSegmentsPerLevel = 5) {}
 
