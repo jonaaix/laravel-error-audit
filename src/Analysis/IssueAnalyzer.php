@@ -58,12 +58,22 @@ class IssueAnalyzer
 
       $agent = new ErrorAuditAgent;
       $analysedCount = 0;
+      $cachedCostUsd = 0.0;
+      $cachedModel = null;
       $issues = [];
 
       foreach ($groups as $group) {
          $assessment = $refresh ? null : $this->store->assessmentFor($group->fingerprint);
 
          if ($assessment !== null) {
+            // A cached assessment is an analysed issue all the same — the
+            // request was simply paid on an earlier run. Count it, and carry
+            // its original cost so the report states what it truly cost.
+            $analysedCount++;
+            $entry = $this->store->find($group->fingerprint);
+            $cachedCostUsd += (float) ($entry['cost_usd'] ?? 0);
+            $cachedModel ??= $entry['model'] ?? null;
+
             $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Cached);
          } elseif ($this->aiEnabled()) {
             $payload = $this->payloadBuilder->build($group, $periodDescription);
@@ -105,8 +115,8 @@ class IssueAnalyzer
       return new AnalysisResult(
          issues: $issues,
          analysedCount: $analysedCount,
-         costUsd: $agent->totalCostUsd(),
-         model: $agent->lastCost()?->model,
+         costUsd: $agent->totalCostUsd() + $cachedCostUsd,
+         model: $agent->lastCost()?->model ?? $cachedModel,
          inputTokens: $budget->tokensSpent(),
          maxInputTokens: $budget->maxInputTokens(),
       );

@@ -76,11 +76,28 @@ it('reuses a cached assessment instead of asking again', function (): void {
 
    $result = analyse([ErrorAuditReportFactory::group('dd', 'RedisException', 5)]);
 
-   expect($result->analysedCount)->toBe(0)
+   expect($result->analysedCount)->toBe(1)
       ->and($result->issues[0]->assessment)->not->toBeNull()
       ->and($result->issues[0]->assessment->fromCache)->toBeTrue()
       ->and($result->issues[0]->assessment->title)->toBe('Redis is unreachable.')
       ->and($result->issues[0]->assessment->urgency)->toBe(UrgencyEnum::High);
+});
+
+it('counts cached assessments as analysed and carries their true cost', function (): void {
+   seedAssessment('cc1', 'RedisException', 40, UrgencyEnum::High);
+   seedAssessment('cc2', 'QueryException', 12, UrgencyEnum::Medium);
+
+   $result = analyse([
+      ErrorAuditReportFactory::group('cc1', 'RedisException', 5),
+      ErrorAuditReportFactory::group('cc2', 'QueryException', 3),
+      ErrorAuditReportFactory::group('cc3', 'PaymentDeclined', 1),
+   ]);
+
+   // Two of three carry an assessment (from cache), the third stays open —
+   // and the report's cost is the sum of what those assessments once cost.
+   expect($result->analysedCount)->toBe(2)
+      ->and($result->costUsd)->toBe(0.0008)
+      ->and($result->model)->toBe('claude-haiku-4-5');
 });
 
 it('keeps the assessment when a later run adds no new analysis', function (): void {

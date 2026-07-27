@@ -2,7 +2,15 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
-## [Unreleased]
+## [1.6.2] - 2026-07-27
+
+### Fixed
+
+- The report footer counted only freshly requested analyses, so a fully
+  cached run read "0 of 25 issue types analysed by AI" — plainly wrong. A
+  cached assessment is an analysed issue; the count now covers every issue
+  carrying an assessment, and the stated cost is the sum of what those
+  assessments truly cost, whether paid this run or on an earlier one.
 
 ### Changed
 
