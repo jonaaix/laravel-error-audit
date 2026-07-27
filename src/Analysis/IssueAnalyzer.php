@@ -37,7 +37,7 @@ class IssueAnalyzer
       $progress ??= new NullProgress;
 
       $budget = new AnalysisBudget(
-         maxIssues: (int) $this->errorAudit->value('ai.max_issues_per_run', 15),
+         maxIssues: (int) $this->errorAudit->value('ai.max_issues_per_run', 100),
          maxInputTokens: (int) $this->errorAudit->value('ai.max_input_tokens', 40000),
       );
 

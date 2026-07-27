@@ -34,7 +34,7 @@ settings accept any provider and model `laravel/ai` knows (OpenAI, Anthropic, â€
 
 ```php
 'ai' => [
-    'max_issues_per_run' => 15,
+    'max_issues_per_run' => 100,
     'max_input_tokens' => 40000,
     'max_tokens_per_issue' => 20000,
     'samples_per_issue' => 1,

@@ -67,7 +67,7 @@ class PreviewErrorAuditController
       $builder = app(IssuePayloadBuilder::class);
       $collected = $service->collect($since, $until);
       $period = $service->describePeriod($since, $until);
-      $limit = (int) app(\Aaix\LaravelErrorAudit\ErrorAudit::class)->value('ai.max_issues_per_run', 15);
+      $limit = (int) app(\Aaix\LaravelErrorAudit\ErrorAudit::class)->value('ai.max_issues_per_run', 100);
 
       $prompts = [];
 

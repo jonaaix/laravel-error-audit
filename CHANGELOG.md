@@ -4,6 +4,12 @@ All notable changes to `aaix/laravel-error-audit` are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- Default `ai.max_issues_per_run` raised from 15 to 100. With per-issue caps
+  and the assessment cache in place, the issue counter rarely needs to be the
+  limiting factor; the token budget remains the effective backstop.
+
 ### Added
 
 - The report states how much of the input token budget the analysis used, so

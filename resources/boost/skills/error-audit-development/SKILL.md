@@ -132,7 +132,7 @@ Log content (and, by default, the source files named in stack traces) is sent to
 ## Cost control
 
 - Assessments are cached by fingerprint — recurring and already-known issues cost **zero** requests. Only use `--refresh` when the assessment logic or model changed.
-- Caps live under `ai.*`: `max_issues_per_run` (default 15), `max_input_tokens`, `max_tokens_per_issue`, `samples_per_issue`, `max_source_file_bytes`.
+- Caps live under `ai.*`: `max_issues_per_run` (default 100), `max_input_tokens`, `max_tokens_per_issue`, `samples_per_issue`, `max_source_file_bytes`.
 - `minimum_level` (default `warning`) gates what is analysed at all; raise to `error` on noisy apps.
 
 ## Preview route (local layout tuning)
