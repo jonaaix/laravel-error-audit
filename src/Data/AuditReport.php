@@ -31,6 +31,8 @@ final class AuditReport
       public readonly ?string $analysisModel,
       public readonly int $discardedEntryCount,
       public readonly ?string $chartPng = null,
+      public readonly int $analysisInputTokens = 0,
+      public readonly int $analysisMaxInputTokens = 0,
    ) {}
 
    public function periodDays(): int

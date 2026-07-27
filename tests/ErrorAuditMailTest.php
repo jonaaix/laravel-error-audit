@@ -163,3 +163,9 @@ it('draws no channel divider when every issue shares one channel', function (): 
 
    expect($html)->not->toContain('<table class="audit-channel-divider');
 });
+
+it('states how much of the input token budget the analysis used', function (): void {
+   $html = renderAudit();
+
+   expect($html)->toContain('Input used: ~12,840 of 40,000 tokens.');
+});

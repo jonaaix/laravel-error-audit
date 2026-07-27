@@ -158,3 +158,12 @@ it('reports per-issue progress while analysing', function (): void {
       ->and($progress->issues[0][2])->toBe(\Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::Cached)
       ->and($progress->details)->toContain('AI analysis is disabled — issues are counted but not assessed');
 });
+
+it('carries the spent input token budget in its result', function (): void {
+   seedAssessment('tt', 'RedisException', 6, UrgencyEnum::High);
+
+   $result = analyse([ErrorAuditReportFactory::group('tt', 'RedisException', 6)]);
+
+   expect($result->inputTokens)->toBe(0)
+      ->and($result->maxInputTokens)->toBe(40000);
+});

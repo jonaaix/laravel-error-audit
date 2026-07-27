@@ -64,6 +64,14 @@ class ErrorAuditService
          $progress,
       );
 
+      if ($analysis->inputTokens > 0) {
+         $progress->detail(sprintf(
+            '~%s of %s input tokens used (estimated)',
+            number_format($analysis->inputTokens),
+            number_format($analysis->maxInputTokens),
+         ));
+      }
+
       $progress->phase('Rendering the timeline chart');
       $chartPng = $this->chartRenderer->render(
          $collected->timeline,
@@ -87,6 +95,8 @@ class ErrorAuditService
          analysisModel: $analysis->model,
          discardedEntryCount: 0,
          chartPng: $chartPng,
+         analysisInputTokens: $analysis->inputTokens,
+         analysisMaxInputTokens: $analysis->maxInputTokens,
       );
    }
 

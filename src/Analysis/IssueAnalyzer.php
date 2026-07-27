@@ -107,6 +107,8 @@ class IssueAnalyzer
          analysedCount: $analysedCount,
          costUsd: $agent->totalCostUsd(),
          model: $agent->lastCost()?->model,
+         inputTokens: $budget->tokensSpent(),
+         maxInputTokens: $budget->maxInputTokens(),
       );
    }
 

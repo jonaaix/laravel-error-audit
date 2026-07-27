@@ -43,4 +43,4 @@
 @endif
 
 --------------------------------------------------
-{{ __(':analysed of :total issue types analysed by AI.', ['analysed' => $report->analysedIssueCount, 'total' => $report->issueTypeCount()]) }}@if ($report->analysisCostUsd > 0) {{ __('Analysis cost: :cost USD', ['cost' => number_format($report->analysisCostUsd, 4)]) }}@endif
+{{ __(':analysed of :total issue types analysed by AI.', ['analysed' => $report->analysedIssueCount, 'total' => $report->issueTypeCount()]) }}@if ($report->analysisInputTokens > 0) {{ __('Input used: ~:used of :max tokens.', ['used' => number_format($report->analysisInputTokens), 'max' => number_format($report->analysisMaxInputTokens)]) }}@endif @if ($report->analysisCostUsd > 0){{ __('Analysis cost: :cost USD', ['cost' => number_format($report->analysisCostUsd, 4)]) }}@endif

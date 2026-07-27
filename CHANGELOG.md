@@ -2,6 +2,15 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Added
+
+- The report states how much of the input token budget the analysis used, so
+  it is visible which cap — issue count or tokens — a run is approaching. Shown
+  in the mail footer ("Input used: ~12,840 of 40,000 tokens."), the plain text
+  variant, the CLI summary table and as a detail line in synchronous runs.
+
 ## [1.2.1] - 2026-07-27
 
 ### Changed

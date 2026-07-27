@@ -26,4 +26,24 @@ class AnalysisBudget
       $this->issuesSpent++;
       $this->tokensSpent += $estimatedTokens;
    }
+
+   public function issuesSpent(): int
+   {
+      return $this->issuesSpent;
+   }
+
+   public function tokensSpent(): int
+   {
+      return $this->tokensSpent;
+   }
+
+   public function maxIssues(): int
+   {
+      return $this->maxIssues;
+   }
+
+   public function maxInputTokens(): int
+   {
+      return $this->maxInputTokens;
+   }
 }

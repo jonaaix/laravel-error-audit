@@ -88,6 +88,8 @@ class ErrorAuditReportFactory
          analysisModel: $withAssessments ? 'claude-haiku-4-5' : null,
          discardedEntryCount: 0,
          chartPng: $chartPng,
+         analysisInputTokens: $withAssessments ? 12840 : 0,
+         analysisMaxInputTokens: $withAssessments ? 40000 : 0,
       );
    }
 

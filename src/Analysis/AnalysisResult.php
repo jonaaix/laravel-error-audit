@@ -16,5 +16,7 @@ final class AnalysisResult
       public readonly int $analysedCount,
       public readonly float $costUsd,
       public readonly ?string $model,
+      public readonly int $inputTokens = 0,
+      public readonly int $maxInputTokens = 0,
    ) {}
 }
