@@ -133,6 +133,10 @@ final class AuditReport
             'used' => number_format($this->analysisInputTokens),
             'max' => number_format($this->analysisMaxInputTokens),
          ]);
+      } elseif ($this->analysisInputTokens > 0) {
+         $parts[] = __('Input used: ~:used tokens.', [
+            'used' => number_format($this->analysisInputTokens),
+         ]);
       }
 
       if ($this->analysisCostUsd > 0) {

@@ -20,6 +20,7 @@ class IssueAnalyzer
    public function __construct(
       private readonly IssuePayloadBuilder $payloadBuilder,
       private readonly AssessmentStore $store,
+      private readonly DailyCostLedger $ledger,
       private readonly ErrorAudit $errorAudit,
       private readonly LoggerInterface $logger,
    ) {}
@@ -43,10 +44,16 @@ class IssueAnalyzer
    ): AnalysisResult {
       $progress ??= new NullProgress;
 
+      $maxIssues = $this->errorAudit->value('ai.max_issues_per_run', 100);
+      $maxTokens = $this->errorAudit->value('ai.max_input_tokens', 40000);
+      $maxDailyCost = $this->errorAudit->value('ai.max_daily_cost_usd');
+
       $budget = new AnalysisBudget(
-         maxIssues: (int) $this->errorAudit->value('ai.max_issues_per_run', 100),
-         maxInputTokens: (int) $this->errorAudit->value('ai.max_input_tokens', 40000),
+         maxIssues: $maxIssues === null ? null : (int) $maxIssues,
+         maxInputTokens: $maxTokens === null ? null : (int) $maxTokens,
       );
+
+      $maxDailyCost = $maxDailyCost === null ? null : (float) $maxDailyCost;
 
       $groups = $this->errorAudit->applyIssueFilters($groups);
 
@@ -76,27 +83,32 @@ class IssueAnalyzer
 
             $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Cached);
          } elseif ($this->aiEnabled()) {
-            $payload = $this->payloadBuilder->build($group, $periodDescription);
-
-            if ($budget->allows($this->payloadBuilder->estimateTokens($payload))) {
-               $assessment = $this->assess($agent, $payload);
-
-               if ($assessment !== null) {
-                  $analysedCount++;
-                  $budget->consume($this->payloadBuilder->estimateTokens($payload));
-                  $this->store->remember($group, $assessment, $agent->lastCost()?->model, $agent->lastCost()?->totalCostUsd);
-
-                  $progress->issue(
-                     $group->title(),
-                     $group->count(),
-                     AnalysisOutcomeEnum::Analysed,
-                     $agent->lastCost()?->totalCostUsd,
-                  );
-               } else {
-                  $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Failed);
-               }
+            if ($maxDailyCost !== null && $this->ledger->spentToday() >= $maxDailyCost) {
+               $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedCost);
             } else {
-               $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedBudget);
+               $payload = $this->payloadBuilder->build($group, $periodDescription);
+
+               if ($budget->allows($this->payloadBuilder->estimateTokens($payload))) {
+                  $assessment = $this->assess($agent, $payload);
+                  $this->ledger->add((float) ($agent->lastCost()?->totalCostUsd ?? 0));
+
+                  if ($assessment !== null) {
+                     $analysedCount++;
+                     $budget->consume($this->payloadBuilder->estimateTokens($payload));
+                     $this->store->remember($group, $assessment, $agent->lastCost()?->model, $agent->lastCost()?->totalCostUsd);
+
+                     $progress->issue(
+                        $group->title(),
+                        $group->count(),
+                        AnalysisOutcomeEnum::Analysed,
+                        $agent->lastCost()?->totalCostUsd,
+                     );
+                  } else {
+                     $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Failed);
+                  }
+               } else {
+                  $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedBudget);
+               }
             }
          }
 
@@ -112,13 +124,21 @@ class IssueAnalyzer
 
       $issues = $this->sortByUrgency($issues);
 
+      if ($maxDailyCost !== null) {
+         $progress->detail(sprintf(
+            'daily analysis spend: $%.4f of $%.2f',
+            $this->ledger->spentToday(),
+            $maxDailyCost,
+         ));
+      }
+
       return new AnalysisResult(
          issues: $issues,
          analysedCount: $analysedCount,
          costUsd: $agent->totalCostUsd() + $cachedCostUsd,
          model: $agent->lastCost()?->model ?? $cachedModel,
          inputTokens: $budget->tokensSpent(),
-         maxInputTokens: $budget->maxInputTokens(),
+         maxInputTokens: $budget->maxInputTokens() ?? 0,
       );
    }
 

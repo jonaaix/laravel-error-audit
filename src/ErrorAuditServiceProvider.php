@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Aaix\LaravelErrorAudit;
 
 use Aaix\LaravelErrorAudit\Analysis\AssessmentStore;
+use Aaix\LaravelErrorAudit\Analysis\DailyCostLedger;
 use Aaix\LaravelErrorAudit\Analysis\IssuePayloadBuilder;
 use Aaix\LaravelErrorAudit\Analysis\SourceContext;
 use Aaix\LaravelErrorAudit\Charts\GdChartRenderer;
@@ -43,6 +44,12 @@ class ErrorAuditServiceProvider extends ServiceProvider
          $store = $app->make(ErrorAudit::class)->value('cache.store');
 
          return new AssessmentStore($app->make(CacheFactory::class)->store($store));
+      });
+
+      $this->app->scoped(DailyCostLedger::class, function ($app): DailyCostLedger {
+         $store = $app->make(ErrorAudit::class)->value('cache.store');
+
+         return new DailyCostLedger($app->make(CacheFactory::class)->store($store));
       });
 
       $this->app->scoped(ChartRenderer::class, function ($app): ChartRenderer {

@@ -36,12 +36,27 @@ settings accept any provider and model `laravel/ai` knows (OpenAI, Anthropic, �
 'ai' => [
     'max_issues_per_run' => 100,
     'max_input_tokens' => 40000,
+    'max_daily_cost_usd' => null,
     'max_tokens_per_issue' => 20000,
     'samples_per_issue' => 1,
     'max_sample_characters' => null,
     'max_stack_frames' => null,
 ],
 ```
+
+Every cap is optional — `null` switches it off. To steer purely by money
+instead of tokens, disable the structural caps and set a daily budget:
+
+```php
+'max_issues_per_run' => null,
+'max_input_tokens' => null,
+'max_daily_cost_usd' => 1.00,
+```
+
+The daily limit counts what the provider **actually billed**, accumulated per
+calendar day across every run — scheduled, manual and `--refresh` alike. Once
+spent, further issues are skipped for the day; they still appear in the report
+with their counts and are analysed on a later day.
 
 Cost is kept in check by structure, not by trimming context:
 

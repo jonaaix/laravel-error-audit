@@ -9,5 +9,6 @@ enum AnalysisOutcomeEnum: string
    case Analysed = 'analysed';
    case Cached = 'cached';
    case SkippedBudget = 'skipped-budget';
+   case SkippedCost = 'skipped-cost';
    case Failed = 'failed';
 }

@@ -2,6 +2,18 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Added
+
+- `ai.max_daily_cost_usd`: a money budget for the analysis. It sums what the
+  provider actually billed, accumulated per calendar day across every run,
+  and stops new requests once spent — skipped issues stay in the report with
+  their counts and are analysed on a later day. Every analysis cap is now
+  optional (`null` disables it), so an application can steer purely by cost:
+  `max_issues_per_run => null, max_input_tokens => null,
+  max_daily_cost_usd => 1.00`.
+
 ## [1.6.3] - 2026-07-27
 
 ### Fixed

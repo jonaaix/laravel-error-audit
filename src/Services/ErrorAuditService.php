@@ -65,11 +65,9 @@ class ErrorAuditService
       );
 
       if ($analysis->inputTokens > 0) {
-         $progress->detail(sprintf(
-            '~%s of %s input tokens used (estimated)',
-            number_format($analysis->inputTokens),
-            number_format($analysis->maxInputTokens),
-         ));
+         $progress->detail($analysis->maxInputTokens > 0
+            ? sprintf('~%s of %s input tokens used (estimated)', number_format($analysis->inputTokens), number_format($analysis->maxInputTokens))
+            : sprintf('~%s input tokens used (estimated, no token limit)', number_format($analysis->inputTokens)));
       }
 
       $progress->phase('Rendering the timeline chart');
