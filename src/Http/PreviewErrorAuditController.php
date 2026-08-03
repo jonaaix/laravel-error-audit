@@ -67,11 +67,16 @@ class PreviewErrorAuditController
       $builder = app(IssuePayloadBuilder::class);
       $collected = $service->collect($since, $until);
       $period = $service->describePeriod($since, $until);
-      $limit = (int) app(\Aaix\LaravelErrorAudit\ErrorAudit::class)->value('ai.max_issues_per_run', 100);
+      $limit = app(\Aaix\LaravelErrorAudit\ErrorAudit::class)->value('ai.max_issues_per_run');
+      $groups = $collected->groupsByFrequency();
+
+      if ($limit !== null) {
+         $groups = array_slice($groups, 0, (int) $limit);
+      }
 
       $prompts = [];
 
-      foreach (array_slice($collected->groupsByFrequency(), 0, $limit) as $group) {
+      foreach ($groups as $group) {
          $prompts[] = [
             'title' => $group->title(),
             'level' => $group->level->label(),

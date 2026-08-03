@@ -44,9 +44,9 @@ class IssueAnalyzer
    ): AnalysisResult {
       $progress ??= new NullProgress;
 
-      $maxIssues = $this->errorAudit->value('ai.max_issues_per_run', 100);
-      $maxTokens = $this->errorAudit->value('ai.max_input_tokens', 40000);
-      $maxDailyCost = $this->errorAudit->value('ai.max_daily_cost_usd');
+      $maxIssues = $this->errorAudit->value('ai.max_issues_per_run');
+      $maxTokens = $this->errorAudit->value('ai.max_input_tokens');
+      $maxDailyCost = $this->errorAudit->value('ai.max_daily_cost_usd', 1.00);
 
       $budget = new AnalysisBudget(
          maxIssues: $maxIssues === null ? null : (int) $maxIssues,

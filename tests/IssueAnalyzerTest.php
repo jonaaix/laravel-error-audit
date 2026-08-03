@@ -178,10 +178,19 @@ it('reports per-issue progress while analysing', function (): void {
 });
 
 it('carries the spent input token budget in its result', function (): void {
+   config()->set('error-audit.ai.max_input_tokens', 40000);
    seedAssessment('tt', 'RedisException', 6, UrgencyEnum::High);
 
    $result = analyse([ErrorAuditReportFactory::group('tt', 'RedisException', 6)]);
 
    expect($result->inputTokens)->toBe(0)
       ->and($result->maxInputTokens)->toBe(40000);
+});
+
+it('reports no token ceiling under the default money budget', function (): void {
+   seedAssessment('uu', 'RedisException', 6, UrgencyEnum::High);
+
+   $result = analyse([ErrorAuditReportFactory::group('uu', 'RedisException', 6)]);
+
+   expect($result->maxInputTokens)->toBe(0);
 });

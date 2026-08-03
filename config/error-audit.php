@@ -112,20 +112,17 @@ return [
       'model' => 'gemini-3.5-flash-lite',
       'timeout' => 120,
 
-      // Every analysis cap is optional — null switches it off. The daily cost
-      // limit is the only one denominated in money: it sums what the provider
-      // actually billed, accumulated per calendar day across all runs, and
-      // stops new requests once reached. Issues skipped this way still appear
-      // in the report with their counts and are analysed on a later day.
+      // The analysis is capped by money, because money is what a budget is
+      // actually about: the daily limit sums what the provider truly billed,
+      // accumulated per calendar day across all runs, and stops new requests
+      // once spent. Issues skipped this way still appear in the report with
+      // their counts and are analysed on a later day.
       //
-      // To steer purely by money, set both other caps to null:
-      //
-      //    'max_issues_per_run' => null,
-      //    'max_input_tokens' => null,
-      //    'max_daily_cost_usd' => 1.00,
-      'max_issues_per_run' => 100,
-      'max_input_tokens' => 40000,
-      'max_daily_cost_usd' => null,
+      // The structural caps exist for setups that prefer them — every cap is
+      // optional, null switches it off, and whichever caps are set all apply.
+      'max_issues_per_run' => null,
+      'max_input_tokens' => null,
+      'max_daily_cost_usd' => 1.00,
       'max_tokens_per_issue' => 20000,
       'samples_per_issue' => 1,
       'max_sample_characters' => null,
