@@ -41,13 +41,15 @@ class ErrorAuditMail extends Mailable
 
    /**
     * The subject line is the only part of the report that is read on a lock
-    * screen: date first so stacked reports sort at a glance, then the two
+    * screen: the "Audit" keyword up front so the mail is spotted in a stacked
+    * inbox, then the date so same-day reports sort at a glance, then the two
     * counts that matter, then which application is talking.
     */
    private function statusSubject(): string
    {
       return sprintf(
-         '%s — %s · %s — %s',
+         '%s %s — %s · %s — %s',
+         __('Audit'),
          $this->report->periodEnd->format('d.m.'),
          __(':count ERRORS', ['count' => number_format($this->report->errorCount, 0, ',', '.')]),
          __(':count WARNINGS', ['count' => number_format($this->report->warningCount, 0, ',', '.')]),

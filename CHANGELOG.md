@@ -2,6 +2,14 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- The audit mail subject now leads with the keyword "Audit" before the date, so
+  the report is easier to spot in a stacked inbox. Localise it via the standard
+  translation layer (`__('Audit')`) if you want a translated keyword.
+
 ## [1.7.0] - 2026-08-03
 
 ### Added
