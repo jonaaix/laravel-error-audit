@@ -2,6 +2,39 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Fixed
+
+- The preceding period is read again. `previousPeriod()` measured the window
+  with the later moment as the receiver, and Carbon returns a signed
+  difference — so every window measured negative, the length guard rejected it,
+  and no previous window was ever collected. Every issue was therefore flagged
+  `NEW`, no issue carried a previous count, and the mail showed no trend.
+- Issues without an exception class are named after their message instead of
+  their log level. Anything from `Log::warning()` was titled "WARNING", the same
+  word the level badge already carries, leaving the card with no identifying
+  text once the AI analysis did not run.
+- The mail names the actual reason an issue went unanalysed. It stated "beyond
+  the analysis budget" for all four causes, so a report with AI switched off or
+  a failing provider claimed a budget overrun on every card. `AuditedIssue` now
+  carries the `AnalysisOutcomeEnum` the analysis produced.
+- A serialised payload no longer splits one failure into a group per variant.
+  The timestamp pattern matched trailing non-whitespace, which in JSON — no
+  space after a timestamp — swallowed the rest of the payload and unbalanced its
+  quotes, leaving volatile values in the signature. The timestamp tail is now
+  matched explicitly.
+- Dropped the `imagedestroy()` call in `GdChartRenderer`, deprecated as of PHP
+  8.5 and without effect since PHP 8.0. It emitted a deprecation notice on every
+  report — into the very log the next report reads.
+
+### Changed
+
+- `AuditedIssue::__construct()` takes a required `outcome` argument. This only
+  affects code constructing the object directly; the analysis fills it in.
+- With AI analysis switched off, the console now reports each issue with the
+  `Disabled` outcome instead of passing over it silently.
+
 ## [1.7.1] - 2026-08-13
 
 ### Changed
