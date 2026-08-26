@@ -104,10 +104,14 @@ class ErrorAuditService
     * Reading it fresh from the logs on every run is what makes the report a
     * pure function of the window: the same period always yields the same
     * report.
+    *
+    * Carbon returns a signed difference, so the earlier moment has to be the
+    * receiver — the other way round every window measures negative and the
+    * guard below swallows the whole comparison.
     */
    private function previousPeriod(Carbon $since, Carbon $until): ?CollectedLogs
    {
-      $length = $until->diffInSeconds($since);
+      $length = $since->diffInSeconds($until);
 
       if ($length <= 0) {
          return null;
