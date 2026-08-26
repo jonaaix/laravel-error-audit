@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 
 final class IssueGroup
 {
+   private const TITLE_LENGTH = 100;
+
    /** @var list<LogEntry> */
    private array $samples = [];
 
@@ -129,10 +131,26 @@ final class IssueGroup
       return null;
    }
 
+   /**
+    * Anything logged without an exception — every Log::warning() — has only its
+    * message to identify it. The normalised form is what carries into the
+    * report: it is the very text the group was formed on, and its placeholders
+    * already stand in for the values a raw line would expose.
+    */
    public function title(): string
    {
-      return $this->exceptionClass !== null
-         ? class_basename($this->exceptionClass)
-         : $this->level->label();
+      if ($this->exceptionClass !== null) {
+         return class_basename($this->exceptionClass);
+      }
+
+      $message = trim($this->normalizedMessage);
+
+      if ($message === '') {
+         return $this->level->label();
+      }
+
+      return mb_strlen($message) > self::TITLE_LENGTH
+         ? rtrim(mb_substr($message, 0, self::TITLE_LENGTH)).'…'
+         : $message;
    }
 }
