@@ -116,8 +116,6 @@ class GdChartRenderer implements ChartRenderer
       imagepng($canvas, null, 9);
       $png = (string) ob_get_clean();
 
-      imagedestroy($canvas);
-
       return $png;
    }
 
