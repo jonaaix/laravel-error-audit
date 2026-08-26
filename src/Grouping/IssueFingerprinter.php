@@ -13,11 +13,16 @@ class IssueFingerprinter
    /**
     * Ordered so that broad patterns never consume the narrow ones before them.
     *
+    * The timestamp tail is spelled out rather than matched as non-whitespace:
+    * a serialised payload puts no space after a timestamp, so anything greedier
+    * eats the rest of the payload, unbalances its quotes, and leaves volatile
+    * values in the signature — one failure then becomes one group per payload.
+    *
     * @var array<string, string>
     */
    private const REPLACEMENTS = [
       '/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/i' => '{uuid}',
-      '/\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}\S*/' => '{timestamp}',
+      '/\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?(?:Z|[+-]\d{2}:?\d{2})?/' => '{timestamp}',
       '/\b\d{4}-\d{2}-\d{2}\b/' => '{date}',
       '/\b[\w.+-]+@[\w-]+\.[\w.-]+\b/' => '{email}',
       '/\bhttps?:\/\/\S+/i' => '{url}',

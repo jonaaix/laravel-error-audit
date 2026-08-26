@@ -45,6 +45,21 @@ it('groups the same failure despite differing identifiers', function (string $a,
       'Delivery to jonas@example.com failed',
       'Delivery to anna@example.org failed',
    ],
+   'serialised payloads carrying a timestamp' => [
+      'No shipping option {"id":10,"name":"Up to 10kg","created_at":"2026-08-17T02:43:56.000000Z"} for size {"id":1,"name":"Small"}',
+      'No shipping option {"id":23,"name":"Up to 30kg","created_at":"2026-08-19T11:07:02.000000Z"} for size {"id":4,"name":"Large"}',
+   ],
+]);
+
+it('stops the timestamp pattern at the timestamp', function (string $message, string $expected): void {
+   expect((new IssueFingerprinter)->signature($message))->toBe($expected);
+})->with([
+   'space separated' => ['failed at 2026-08-17 02:43:56 exactly', 'failed at {timestamp} exactly'],
+   'fractional seconds' => ['failed at 2026-08-17T02:43:56.000000Z exactly', 'failed at {timestamp} exactly'],
+   'utc designator' => ['failed at 2026-08-17T02:43:56Z exactly', 'failed at {timestamp} exactly'],
+   'numeric offset' => ['failed at 2026-08-17T02:43:56+02:00 exactly', 'failed at {timestamp} exactly'],
+   // The trailing quote must survive, or the later quote pass pairs across it.
+   'quoted inside a payload' => ['{"at":"2026-08-17T02:43:56.000000Z","size":"Small"}', '{"{value}":"{value}","{value}":"{value}"}'],
 ]);
 
 it('keeps genuinely different failures apart', function (): void {
