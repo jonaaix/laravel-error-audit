@@ -9,6 +9,7 @@
    $prio = $assessment?->urgency->badgeStyle();
 
    $title = $assessment?->title ?: $issue->group->title();
+   $unanalysedReason = $issue->outcome->explanation();
    $origin = array_filter([$codePath, $issue->group->exceptionClass]);
 
    $lastSeenTime = $report->formatTimestamp($issue->group->lastSeen());
@@ -43,10 +44,10 @@
 <p class="audit-card-value audit-card-value-last">{{ $assessment->suggestedAction }}</p>
 </td>
 </tr>
-@else
+@elseif ($unanalysedReason)
 <tr>
 <td class="audit-card-detail">
-<p class="audit-card-unanalysed">{{ __('Not analysed — beyond the analysis budget for this report. Counted and tracked; it will be analysed on the next run if it persists.') }}</p>
+<p class="audit-card-unanalysed">{{ $unanalysedReason }}</p>
 </td>
 </tr>
 @endif

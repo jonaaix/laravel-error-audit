@@ -7,6 +7,7 @@ use Aaix\LaravelErrorAudit\Charts\TimelineSeriesBuilder;
 use Aaix\LaravelErrorAudit\Data\AuditedIssue;
 use Aaix\LaravelErrorAudit\Data\AuditReport;
 use Aaix\LaravelErrorAudit\Data\IssueAssessment;
+use Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum;
 use Aaix\LaravelErrorAudit\Enums\IssueCategoryEnum;
 use Aaix\LaravelErrorAudit\Enums\LogLevelEnum;
 use Aaix\LaravelErrorAudit\Enums\UrgencyEnum;
@@ -36,32 +37,32 @@ it('renders the demo report to demo.html', function (): void {
          'Nightly reconciliation writes into a missing table',
          'A migration adding the reconciliation table was never applied on this environment.',
          'Run the pending migration, then re-queue the failed batch from the Horizon dashboard.',
-      ), true, 12),
+      ), true, 12, AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['a2'], $assessment(
          UrgencyEnum::Medium, IssueCategoryEnum::Integration,
          'Payment provider declines cards issued outside the EU',
          'The provider profile is configured with an EU-only acquiring route.',
          'Confirm the intended market coverage with the provider dashboard settings.',
-      ), false, null),
+      ), false, null, AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['a3'], $assessment(
          UrgencyEnum::Low, IssueCategoryEnum::Deprecation,
          'Deprecated null coalescing on a typed property',
          'A dependency calls a setter that PHP 8.4 flags as deprecated.',
          'Update the aaix/legacy-import package to ^3.2 where this is fixed.',
-      ), false, null),
+      ), false, null, AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['q1'], $assessment(
          UrgencyEnum::High, IssueCategoryEnum::Infrastructure,
          'Order sync jobs exhaust retries against the ERP endpoint',
          'The ERP API rejects the sync payload since the last schema change.',
          'Replay one failed job with horizon:forget after deploying the new mapping.',
-      ), true, null),
-      new AuditedIssue($groups['q2'], null, false, null),
+      ), true, null, AnalysisOutcomeEnum::Analysed),
+      new AuditedIssue($groups['q2'], null, false, null, AnalysisOutcomeEnum::SkippedCost),
       new AuditedIssue($groups['n1'], $assessment(
          UrgencyEnum::Noise, IssueCategoryEnum::Noise,
          'Sporadic upstream timeouts from the image resizer',
          'The resizer cold-starts under low traffic and misses the 5s proxy timeout.',
          'Raise proxy_read_timeout for the resizer location or keep one instance warm.',
-      ), false, 71),
+      ), false, 71, AnalysisOutcomeEnum::Analysed),
    ];
 
    $base = ErrorAuditReportFactory::report();

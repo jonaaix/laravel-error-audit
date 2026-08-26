@@ -170,10 +170,12 @@ it('reports per-issue progress while analysing', function (): void {
       progress: $progress,
    );
 
-   expect($progress->issues)->toHaveCount(1)
+   expect($progress->issues)->toHaveCount(2)
       ->and($progress->issues[0][0])->toBe('RedisException')
       ->and($progress->issues[0][1])->toBe(5)
       ->and($progress->issues[0][2])->toBe(\Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::Cached)
+      ->and($progress->issues[1][0])->toBe('QueryException')
+      ->and($progress->issues[1][2])->toBe(\Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::Disabled)
       ->and($progress->details)->toContain('AI analysis is disabled — issues are counted but not assessed');
 });
 

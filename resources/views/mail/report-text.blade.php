@@ -35,8 +35,8 @@
 {{ $issue->assessment->title }}
 {{ __('Cause') }}: {{ $issue->assessment->likelyCause }}
 {{ __('Suggestion') }}: {{ $issue->assessment->suggestedAction }}
-@else
-{{ __('Not analysed in this run.') }}
+@elseif ($issue->outcome->explanation())
+{{ $issue->outcome->explanation() }}
 @endif
 @endforeach
 @endforeach

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum;
 use Aaix\LaravelErrorAudit\Mail\ErrorAuditMail;
 use Aaix\LaravelErrorAudit\Tests\ErrorAuditReportFactory;
 
@@ -93,6 +94,21 @@ it('states plainly when an issue was not analysed', function (): void {
    expect(renderAudit(withAssessments: false))->toContain('beyond the analysis budget');
 });
 
+it('names the reason an issue went unanalysed instead of always blaming the budget', function (AnalysisOutcomeEnum $outcome, string $expected): void {
+   $html = (new ErrorAuditMail(unanalysedReport($outcome)))->render();
+
+   expect($html)->toContain($expected);
+
+   if ($outcome !== AnalysisOutcomeEnum::SkippedBudget) {
+      expect($html)->not->toContain('beyond the analysis budget');
+   }
+})->with([
+   'ai switched off' => [AnalysisOutcomeEnum::Disabled, 'AI analysis is switched off'],
+   'daily cost limit' => [AnalysisOutcomeEnum::SkippedCost, 'daily analysis cost limit'],
+   'provider call failed' => [AnalysisOutcomeEnum::Failed, 'request to the AI provider failed'],
+   'budget exhausted' => [AnalysisOutcomeEnum::SkippedBudget, 'beyond the analysis budget'],
+]);
+
 it('ships a plain text alternative without markup', function (): void {
    $report = ErrorAuditReportFactory::report();
    $content = (new ErrorAuditMail($report))->content();
@@ -108,6 +124,34 @@ it('ships a plain text alternative without markup', function (): void {
 
 
 
+function unanalysedReport(AnalysisOutcomeEnum $outcome): \Aaix\LaravelErrorAudit\Data\AuditReport
+{
+   $base = ErrorAuditReportFactory::report(withAssessments: false);
+
+   return new \Aaix\LaravelErrorAudit\Data\AuditReport(
+      applicationName: $base->applicationName,
+      periodStart: $base->periodStart,
+      periodEnd: $base->periodEnd,
+      issues: array_map(fn (\Aaix\LaravelErrorAudit\Data\AuditedIssue $issue) => new \Aaix\LaravelErrorAudit\Data\AuditedIssue(
+         group: $issue->group,
+         assessment: null,
+         isNew: $issue->isNew,
+         previousCount: $issue->previousCount,
+         outcome: $outcome,
+      ), $base->issues),
+      timeline: $base->timeline,
+      channels: $base->channels,
+      errorCount: $base->errorCount,
+      warningCount: $base->warningCount,
+      previousErrorCount: $base->previousErrorCount,
+      previousWarningCount: $base->previousWarningCount,
+      analysedIssueCount: 0,
+      analysisCostUsd: 0.0,
+      analysisModel: null,
+      discardedEntryCount: 0,
+   );
+}
+
 function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
 {
    $issue = fn (string $fingerprint, string $class, string $channel) => new \Aaix\LaravelErrorAudit\Data\AuditedIssue(
@@ -115,6 +159,7 @@ function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
       assessment: null,
       isNew: false,
       previousCount: null,
+      outcome: \Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::SkippedBudget,
    );
 
    return new \Aaix\LaravelErrorAudit\Data\AuditReport(

@@ -71,6 +71,7 @@ class IssueAnalyzer
 
       foreach ($groups as $group) {
          $assessment = $refresh ? null : $this->store->assessmentFor($group->fingerprint);
+         $cost = null;
 
          if ($assessment !== null) {
             // A cached assessment is an analysed issue all the same — the
@@ -81,36 +82,34 @@ class IssueAnalyzer
             $cachedCostUsd += (float) ($entry['cost_usd'] ?? 0);
             $cachedModel ??= $entry['model'] ?? null;
 
-            $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Cached);
-         } elseif ($this->aiEnabled()) {
-            if ($maxDailyCost !== null && $this->ledger->spentToday() >= $maxDailyCost) {
-               $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedCost);
+            $outcome = AnalysisOutcomeEnum::Cached;
+         } elseif (! $this->aiEnabled()) {
+            $outcome = AnalysisOutcomeEnum::Disabled;
+         } elseif ($maxDailyCost !== null && $this->ledger->spentToday() >= $maxDailyCost) {
+            $outcome = AnalysisOutcomeEnum::SkippedCost;
+         } else {
+            $payload = $this->payloadBuilder->build($group, $periodDescription);
+
+            if (! $budget->allows($this->payloadBuilder->estimateTokens($payload))) {
+               $outcome = AnalysisOutcomeEnum::SkippedBudget;
             } else {
-               $payload = $this->payloadBuilder->build($group, $periodDescription);
+               $assessment = $this->assess($agent, $payload);
+               $cost = $agent->lastCost()?->totalCostUsd;
+               $this->ledger->add((float) ($cost ?? 0));
 
-               if ($budget->allows($this->payloadBuilder->estimateTokens($payload))) {
-                  $assessment = $this->assess($agent, $payload);
-                  $this->ledger->add((float) ($agent->lastCost()?->totalCostUsd ?? 0));
+               if ($assessment !== null) {
+                  $analysedCount++;
+                  $budget->consume($this->payloadBuilder->estimateTokens($payload));
+                  $this->store->remember($group, $assessment, $agent->lastCost()?->model, $cost);
 
-                  if ($assessment !== null) {
-                     $analysedCount++;
-                     $budget->consume($this->payloadBuilder->estimateTokens($payload));
-                     $this->store->remember($group, $assessment, $agent->lastCost()?->model, $agent->lastCost()?->totalCostUsd);
-
-                     $progress->issue(
-                        $group->title(),
-                        $group->count(),
-                        AnalysisOutcomeEnum::Analysed,
-                        $agent->lastCost()?->totalCostUsd,
-                     );
-                  } else {
-                     $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::Failed);
-                  }
+                  $outcome = AnalysisOutcomeEnum::Analysed;
                } else {
-                  $progress->issue($group->title(), $group->count(), AnalysisOutcomeEnum::SkippedBudget);
+                  $outcome = AnalysisOutcomeEnum::Failed;
                }
             }
          }
+
+         $progress->issue($group->title(), $group->count(), $outcome, $cost);
 
          $previous = $previousGroups[$group->fingerprint] ?? null;
 
@@ -119,6 +118,7 @@ class IssueAnalyzer
             assessment: $assessment,
             isNew: $previous === null,
             previousCount: $previous?->count(),
+            outcome: $outcome,
          );
       }
 

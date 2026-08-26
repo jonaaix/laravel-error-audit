@@ -10,6 +10,7 @@ use Aaix\LaravelErrorAudit\Data\IssueAssessment;
 use Aaix\LaravelErrorAudit\Data\IssueGroup;
 use Aaix\LaravelErrorAudit\Data\LogEntry;
 use Aaix\LaravelErrorAudit\Data\TimelineBucket;
+use Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum;
 use Aaix\LaravelErrorAudit\Enums\IssueCategoryEnum;
 use Aaix\LaravelErrorAudit\Enums\LogLevelEnum;
 use Aaix\LaravelErrorAudit\Enums\UrgencyEnum;
@@ -68,6 +69,7 @@ class ErrorAuditReportFactory
             ) : null,
             isNew: $index < 2,
             previousCount: $index === 0 ? 298 : ($index === 3 ? 260 : null),
+            outcome: $withAssessments ? AnalysisOutcomeEnum::Analysed : AnalysisOutcomeEnum::SkippedBudget,
          );
       }
 

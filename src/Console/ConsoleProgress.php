@@ -35,6 +35,7 @@ class ConsoleProgress implements AuditProgress
             'analysed'.($costUsd !== null && $costUsd > 0 ? sprintf(' · $%.4f', $costUsd) : ''),
          ],
          AnalysisOutcomeEnum::Cached => ['<fg=cyan>✓</>', 'cached — no request'],
+         AnalysisOutcomeEnum::Disabled => ['<fg=gray>○</>', 'not assessed — AI analysis is switched off'],
          AnalysisOutcomeEnum::SkippedBudget => ['<fg=yellow>○</>', 'skipped — analysis budget exhausted'],
          AnalysisOutcomeEnum::SkippedCost => ['<fg=yellow>○</>', 'skipped — daily cost limit reached'],
          AnalysisOutcomeEnum::Failed => ['<fg=red>✗</>', 'analysis failed — see the application log'],
