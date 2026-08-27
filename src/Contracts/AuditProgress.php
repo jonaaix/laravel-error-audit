@@ -13,8 +13,7 @@ use Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum;
 interface AuditProgress
 {
    /**
-    * A new stage of the run: collecting, measuring the previous period,
-    * analysing, rendering the chart.
+    * A new stage of the run: collecting, analysing, rendering the chart.
     */
    public function phase(string $description): void;
 
