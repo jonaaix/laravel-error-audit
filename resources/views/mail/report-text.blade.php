@@ -2,11 +2,11 @@
 {{ $report->periodStart->format('d.m.Y H:i') }} – {{ $report->periodEnd->format('d.m.Y H:i') }}
 {{ __('Status') }}: {{ $report->statusWord() }}
 
-{{ __('Errors') }}: {{ $report->errorCount }}@if ($report->errorDeltaPercent() !== null) ({{ $report->errorDeltaPercent() > 0 ? '+' : '' }}{{ $report->errorDeltaPercent() }}%)@endif
+{{ __('Errors') }}: {{ $report->errorCount }}
 
-{{ __('Warnings') }}: {{ $report->warningCount }}@if ($report->warningDeltaPercent() !== null) ({{ $report->warningDeltaPercent() > 0 ? '+' : '' }}{{ $report->warningDeltaPercent() }}%)@endif
+{{ __('Warnings') }}: {{ $report->warningCount }}
 
-{{ __('Issue types') }}: {{ $report->issueTypeCount() }} ({{ __('new') }}: {{ $report->newIssueTypeCount() }})
+{{ __('Issue types') }}: {{ $report->issueTypeCount() }}
 @if ($report->isEmpty())
 
 {{ __('No errors or warnings were logged during this period.') }}
@@ -27,7 +27,7 @@
 @foreach ($issues as $issue)
 
 --------------------------------------------------
-{{ $issue->group->title() }} x{{ $issue->group->count() }}@if ($issue->isNew) [{{ __('NEW') }}]@endif
+{{ $issue->group->title() }} x{{ $issue->group->count() }}
 
 {{ implode(', ', $issue->group->channels()) }} · {{ $issue->group->lastSeen()->format('d.m. H:i') }}
 @if ($issue->assessment)

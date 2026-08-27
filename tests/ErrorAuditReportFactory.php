@@ -67,8 +67,6 @@ class ErrorAuditReportFactory
                'A migration adding the reconciliation table was never applied on this environment.',
                'Run the pending migration, then re-queue the failed batch from the horizon dashboard.',
             ) : null,
-            isNew: $index < 2,
-            previousCount: $index === 0 ? 298 : ($index === 3 ? 260 : null),
             outcome: $withAssessments ? AnalysisOutcomeEnum::Analysed : AnalysisOutcomeEnum::SkippedBudget,
          );
       }
@@ -82,8 +80,6 @@ class ErrorAuditReportFactory
          channels: ['daily', 'queue'],
          errorCount: 526,
          warningCount: 1444,
-         previousErrorCount: 381,
-         previousWarningCount: 1502,
          analysedIssueCount: $withAssessments ? 5 : 0,
          analysisCostUsd: $withAssessments ? 0.0041 : 0.0,
          analysisModel: $withAssessments ? 'claude-haiku-4-5' : null,

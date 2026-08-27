@@ -39,13 +39,6 @@ it('separates the two summaries by colour as well as by wording', function (): v
       ->and($html)->toContain('#B45309');
 });
 
-it('says what the change rate is measured against', function (): void {
-   $html = renderAudit();
-
-   expect($html)->toContain('▲ +38%')
-      ->and($html)->toContain('Change compared to the preceding 1 day.');
-});
-
 it('keeps the header, summary and issues in that order', function (): void {
    $html = renderAudit();
 
@@ -69,10 +62,6 @@ it('sorts issues by urgency', function (): void {
    $html = renderAudit();
 
    expect(strpos($html, 'QueryException'))->toBeLessThan(strpos($html, 'NotFoundHttpException'));
-});
-
-it('marks new issue types', function (): void {
-   expect(renderAudit())->toContain('NEW');
 });
 
 it('reports the analysis cost and coverage', function (): void {
@@ -135,16 +124,12 @@ function unanalysedReport(AnalysisOutcomeEnum $outcome): \Aaix\LaravelErrorAudit
       issues: array_map(fn (\Aaix\LaravelErrorAudit\Data\AuditedIssue $issue) => new \Aaix\LaravelErrorAudit\Data\AuditedIssue(
          group: $issue->group,
          assessment: null,
-         isNew: $issue->isNew,
-         previousCount: $issue->previousCount,
          outcome: $outcome,
       ), $base->issues),
       timeline: $base->timeline,
       channels: $base->channels,
       errorCount: $base->errorCount,
       warningCount: $base->warningCount,
-      previousErrorCount: $base->previousErrorCount,
-      previousWarningCount: $base->previousWarningCount,
       analysedIssueCount: 0,
       analysisCostUsd: 0.0,
       analysisModel: null,
@@ -157,8 +142,6 @@ function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
    $issue = fn (string $fingerprint, string $class, string $channel) => new \Aaix\LaravelErrorAudit\Data\AuditedIssue(
       group: ErrorAuditReportFactory::group($fingerprint, $class, 3, channel: $channel),
       assessment: null,
-      isNew: false,
-      previousCount: null,
       outcome: \Aaix\LaravelErrorAudit\Enums\AnalysisOutcomeEnum::SkippedBudget,
    );
 
@@ -175,8 +158,6 @@ function multiChannelReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
       channels: ['daily', 'nginx', 'failed-jobs'],
       errorCount: 9,
       warningCount: 0,
-      previousErrorCount: null,
-      previousWarningCount: null,
       analysedIssueCount: 0,
       analysisCostUsd: 0.0,
       analysisModel: null,
@@ -232,8 +213,6 @@ it('shows the token budget even when everything came from cache', function (): v
       channels: ['daily'],
       errorCount: 5,
       warningCount: 0,
-      previousErrorCount: null,
-      previousWarningCount: null,
       analysedIssueCount: 5,
       analysisCostUsd: 0.0255,
       analysisModel: 'gemini-3.5-flash-lite',

@@ -322,18 +322,6 @@ img {
     white-space: nowrap;
 }
 
-.audit-summary-delta {
-    font-size: 12px;
-    color: #52525b;
-    white-space: nowrap;
-    padding-left: 8px;
-}
-
-.audit-summary-footnote {
-    font-size: 11px;
-    color: #a1a1aa;
-    margin: 6px 0 16px 0;
-}
 
 /* Chart */
 
@@ -375,12 +363,6 @@ img {
 .audit-badge-prio {
     border: 1px solid #ddd6fe;
     font-weight: 600;
-}
-
-.audit-badge-new {
-    background-color: #ffffff;
-    border: 1px solid #e4e4e7;
-    color: #52525b;
 }
 
 .audit-badge-queue {

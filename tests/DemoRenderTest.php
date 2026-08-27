@@ -37,32 +37,32 @@ it('renders the demo report to demo.html', function (): void {
          'Nightly reconciliation writes into a missing table',
          'A migration adding the reconciliation table was never applied on this environment.',
          'Run the pending migration, then re-queue the failed batch from the Horizon dashboard.',
-      ), true, 12, AnalysisOutcomeEnum::Analysed),
+      ), AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['a2'], $assessment(
          UrgencyEnum::Medium, IssueCategoryEnum::Integration,
          'Payment provider declines cards issued outside the EU',
          'The provider profile is configured with an EU-only acquiring route.',
          'Confirm the intended market coverage with the provider dashboard settings.',
-      ), false, null, AnalysisOutcomeEnum::Analysed),
+      ), AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['a3'], $assessment(
          UrgencyEnum::Low, IssueCategoryEnum::Deprecation,
          'Deprecated null coalescing on a typed property',
          'A dependency calls a setter that PHP 8.4 flags as deprecated.',
          'Update the aaix/legacy-import package to ^3.2 where this is fixed.',
-      ), false, null, AnalysisOutcomeEnum::Analysed),
+      ), AnalysisOutcomeEnum::Analysed),
       new AuditedIssue($groups['q1'], $assessment(
          UrgencyEnum::High, IssueCategoryEnum::Infrastructure,
          'Order sync jobs exhaust retries against the ERP endpoint',
          'The ERP API rejects the sync payload since the last schema change.',
          'Replay one failed job with horizon:forget after deploying the new mapping.',
-      ), true, null, AnalysisOutcomeEnum::Analysed),
-      new AuditedIssue($groups['q2'], null, false, null, AnalysisOutcomeEnum::SkippedCost),
+      ), AnalysisOutcomeEnum::Analysed),
+      new AuditedIssue($groups['q2'], null, AnalysisOutcomeEnum::SkippedCost),
       new AuditedIssue($groups['n1'], $assessment(
          UrgencyEnum::Noise, IssueCategoryEnum::Noise,
          'Sporadic upstream timeouts from the image resizer',
          'The resizer cold-starts under low traffic and misses the 5s proxy timeout.',
          'Raise proxy_read_timeout for the resizer location or keep one instance warm.',
-      ), false, 71, AnalysisOutcomeEnum::Analysed),
+      ), AnalysisOutcomeEnum::Analysed),
    ];
 
    $base = ErrorAuditReportFactory::report();
@@ -76,8 +76,6 @@ it('renders the demo report to demo.html', function (): void {
       channels: ['daily', 'nginx', 'failed-jobs'],
       errorCount: 53,
       warningCount: 82,
-      previousErrorCount: 31,
-      previousWarningCount: 97,
       analysedIssueCount: 5,
       analysisCostUsd: 0.0087,
       analysisModel: 'gemini-3.5-flash-lite',

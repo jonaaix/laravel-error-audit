@@ -134,7 +134,6 @@ it('hands a custom channel the full report as data', function (): void {
 
    expect($payload['application'])->toBe('Acme IMS')
       ->and($payload['errors'])->toBe(526)
-      ->and($payload['new_issue_types'])->toBe(2)
       ->and($payload['issues'][0])->toHaveKeys(['type', 'title', 'count', 'urgency', 'suggested_action']);
 });
 
@@ -200,8 +199,6 @@ function emptyAuditReport(): \Aaix\LaravelErrorAudit\Data\AuditReport
       channels: [],
       errorCount: 0,
       warningCount: 0,
-      previousErrorCount: null,
-      previousWarningCount: null,
       analysedIssueCount: 0,
       analysisCostUsd: 0.0,
       analysisModel: null,

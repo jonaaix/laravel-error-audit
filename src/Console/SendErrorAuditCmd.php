@@ -94,7 +94,7 @@ class SendErrorAuditCmd extends Command
       $this->components->twoColumnDetail('<fg=gray>Status</>', $report->statusWord());
       $this->components->twoColumnDetail('<fg=gray>Errors</>', (string) $report->errorCount);
       $this->components->twoColumnDetail('<fg=gray>Warnings</>', (string) $report->warningCount);
-      $this->components->twoColumnDetail('<fg=gray>Issue types</>', $report->issueTypeCount().' ('.$report->newIssueTypeCount().' new)');
+      $this->components->twoColumnDetail('<fg=gray>Issue types</>', (string) $report->issueTypeCount());
       $this->components->twoColumnDetail('<fg=gray>Analysed by AI</>', $report->analysedIssueCount.' of '.$report->issueTypeCount());
 
       if ($report->analysisMaxInputTokens > 0) {

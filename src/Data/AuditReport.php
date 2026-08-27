@@ -24,8 +24,6 @@ final class AuditReport
       public readonly array $channels,
       public readonly int $errorCount,
       public readonly int $warningCount,
-      public readonly ?int $previousErrorCount,
-      public readonly ?int $previousWarningCount,
       public readonly int $analysedIssueCount,
       public readonly float $analysisCostUsd,
       public readonly ?string $analysisModel,
@@ -153,11 +151,6 @@ final class AuditReport
       return count($this->issues);
    }
 
-   public function newIssueTypeCount(): int
-   {
-      return count(array_filter($this->issues, fn (AuditedIssue $issue): bool => $issue->isNew));
-   }
-
    public function isEmpty(): bool
    {
       return $this->issues === [];
@@ -219,22 +212,4 @@ final class AuditReport
       return $peak?->total() > 0 ? $peak : null;
    }
 
-   public function errorDeltaPercent(): ?int
-   {
-      return $this->percentDelta($this->errorCount, $this->previousErrorCount);
-   }
-
-   public function warningDeltaPercent(): ?int
-   {
-      return $this->percentDelta($this->warningCount, $this->previousWarningCount);
-   }
-
-   private function percentDelta(int $current, ?int $previous): ?int
-   {
-      if ($previous === null || $previous === 0) {
-         return null;
-      }
-
-      return (int) round((($current - $previous) / $previous) * 100);
-   }
 }

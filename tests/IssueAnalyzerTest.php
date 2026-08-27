@@ -38,25 +38,6 @@ it('leaves nothing behind for an issue it could not assess', function (): void {
       ->and(app(AssessmentStore::class)->find('aa'))->toBeNull();
 });
 
-it('marks an issue absent from the preceding window as new', function (): void {
-   $result = analyse([ErrorAuditReportFactory::group('bb', 'RedisException', 2)]);
-
-   expect($result->issues[0]->isNew)->toBeTrue()
-      ->and($result->issues[0]->previousCount)->toBeNull();
-});
-
-it('takes the previous count from the preceding window', function (): void {
-   $result = app(IssueAnalyzer::class)->analyse(
-      [ErrorAuditReportFactory::group('cc', 'RedisException', 9)],
-      'the last 24 hours',
-      previousGroups: ['cc' => ErrorAuditReportFactory::group('cc', 'RedisException', 3)],
-   );
-
-   expect($result->issues[0]->isNew)->toBeFalse()
-      ->and($result->issues[0]->previousCount)->toBe(3)
-      ->and($result->issues[0]->deltaPercent())->toBe(200);
-});
-
 it('produces the identical result when run twice over the same window', function (): void {
    $run = fn () => app(IssueAnalyzer::class)->analyse(
       [ErrorAuditReportFactory::group('dd2', 'RedisException', 4)],
@@ -66,8 +47,8 @@ it('produces the identical result when run twice over the same window', function
    $first = $run();
    $second = $run();
 
-   expect($second->issues[0]->isNew)->toBe($first->issues[0]->isNew)
-      ->and($second->issues[0]->previousCount)->toBe($first->issues[0]->previousCount)
+   expect($second->issues[0]->group->count())->toBe($first->issues[0]->group->count())
+      ->and($second->issues[0]->outcome)->toBe($first->issues[0]->outcome)
       ->and($second->issues[0]->assessment?->title)->toBe($first->issues[0]->assessment?->title);
 });
 

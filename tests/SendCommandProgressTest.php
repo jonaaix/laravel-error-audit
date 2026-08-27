@@ -7,7 +7,6 @@ it('narrates a synchronous run phase by phase', function (): void {
 
    $this->artisan('error-audit:send', ['--sync' => true, '--dry-run' => true])
       ->expectsOutputToContain('Collecting entries — log channels and failed jobs')
-      ->expectsOutputToContain('Reading the preceding period for the change rate')
       ->expectsOutputToContain('Analysing issues')
       ->expectsOutputToContain('Rendering the timeline chart')
       ->expectsOutputToContain('Dry run — no mail was sent.')

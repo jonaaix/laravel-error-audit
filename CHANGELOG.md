@@ -2,6 +2,27 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Removed
+
+- **Breaking.** The comparison against the preceding period is gone, with
+  everything it fed. A report now describes its own window and nothing else.
+  Dropped: `AuditReport::$previousErrorCount`, `$previousWarningCount`,
+  `errorDeltaPercent()`, `warningDeltaPercent()`, `newIssueTypeCount()`;
+  `AuditedIssue::$isNew`, `$previousCount`, `deltaPercent()`; the
+  `$previousGroups` argument of `IssueAnalyzer::analyse()`; the `NEW` badge and
+  the ▲/▼ change rates in both mail variants; `new_issue_types` and `is_new`
+  from the notification payload.
+- The second pass over the log files that this required. A run now parses each
+  log once instead of twice.
+
+### Migration
+
+- Code constructing `AuditReport` or `AuditedIssue` directly must drop the
+  removed arguments. Consumers of the notification payload lose
+  `new_issue_types` and the per-issue `is_new` key; nothing replaces them.
+
 ## [1.8.0] - 2026-08-27
 
 ### Fixed

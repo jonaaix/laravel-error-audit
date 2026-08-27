@@ -20,7 +20,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
 <tr>
 <td class="audit-card-badges" valign="top">
-<span class="audit-badge" style="background-color: {{ $level->tintColor() }}; color: {{ $level->textColor() }};">{{ $level->label() }}</span>@if ($isQueue) <span class="audit-badge audit-badge-queue">&#8635;&nbsp;{{ __('QUEUE') }}</span>@endif @if ($assessment) <span class="audit-badge audit-badge-prio" style="background-color: {{ $prio['background'] }}; color: {{ $prio['text'] }}; border-color: {{ $prio['border'] }};">&#10023;&nbsp;{{ __('PRIO') }}&nbsp;{{ strtoupper($assessment->urgency->label()) }}</span>@endif @if ($issue->isNew) <span class="audit-badge audit-badge-new">{{ __('NEW') }}</span>@endif
+<span class="audit-badge" style="background-color: {{ $level->tintColor() }}; color: {{ $level->textColor() }};">{{ $level->label() }}</span>@if ($isQueue) <span class="audit-badge audit-badge-queue">&#8635;&nbsp;{{ __('QUEUE') }}</span>@endif @if ($assessment) <span class="audit-badge audit-badge-prio" style="background-color: {{ $prio['background'] }}; color: {{ $prio['text'] }}; border-color: {{ $prio['border'] }};">&#10023;&nbsp;{{ __('PRIO') }}&nbsp;{{ strtoupper($assessment->urgency->label()) }}</span>@endif
 </td>
 <td class="audit-card-figure" valign="middle" align="right" width="90">
 <span class="audit-card-count"><span class="audit-card-count-mark">&times;</span>{{ number_format($issue->group->count(), 0, ',', '.') }}</span>

@@ -119,10 +119,9 @@ migration. Name a store to keep the assessments out of a cache you flush
 regularly. Losing the entries is harmless: the affected issues are analysed
 once more, nothing else changes.
 
-The cache only saves requests — it never changes what the report says. A
-report is a pure function of its time window: "new" and every delta compare
-against the immediately preceding window of the same length, read fresh from
-the logs, so the same period always yields the same report.
+The cache only saves requests — it never changes what the report says. A report
+is a pure function of its time window: it describes the logs of that window and
+nothing else, so the same period always yields the same report.
 
 ## Preview route
 

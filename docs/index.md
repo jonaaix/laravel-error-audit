@@ -27,10 +27,9 @@ composer require aaix/laravel-error-audit
   <img src="/audit-mail.png" alt="The daily error audit email" width="240" style="float: right; width: 240px; margin: 0.25rem 0 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);" />
 </a>
 
-**A status word and four numbers.** Errors and warnings with their change since
-the last report, how many distinct issue types occurred, and how many of them
-are new. The subject line carries the same signal, so you know the answer from
-the lock screen.
+**A status word and three numbers.** How many errors, how many warnings, and how
+many distinct issue types occurred. The subject line carries the same signal, so
+you know the answer from the lock screen.
 
 **A timeline.** A spike at 03:00 tells a different story than an even spread or
 a wall starting at 14:20. Errors and warnings stacked by issue type, rendered to

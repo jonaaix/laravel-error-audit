@@ -26,21 +26,17 @@ class IssueAnalyzer
    ) {}
 
    /**
-    * The report is a pure function of the analysed window: "new" and the
-    * previous count come from comparing against the preceding window of the
-    * same length, never from state left behind by earlier runs. Only the AI
+    * The report is a pure function of the analysed window. Only the AI
     * assessment cache persists across runs — it saves requests, it does not
     * change what the report says happened.
     *
     * @param  list<IssueGroup>  $groups  Ordered by frequency, most frequent first.
-    * @param  array<string, IssueGroup>  $previousGroups  Issues of the preceding window, keyed by fingerprint.
     */
    public function analyse(
       array $groups,
       string $periodDescription,
       bool $refresh = false,
       ?AuditProgress $progress = null,
-      array $previousGroups = [],
    ): AnalysisResult {
       $progress ??= new NullProgress;
 
@@ -111,13 +107,9 @@ class IssueAnalyzer
 
          $progress->issue($group->title(), $group->count(), $outcome, $cost);
 
-         $previous = $previousGroups[$group->fingerprint] ?? null;
-
          $issues[] = new AuditedIssue(
             group: $group,
             assessment: $assessment,
-            isNew: $previous === null,
-            previousCount: $previous?->count(),
             outcome: $outcome,
          );
       }

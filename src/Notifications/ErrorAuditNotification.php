@@ -83,12 +83,10 @@ class ErrorAuditNotification extends Notification
          'errors' => $this->report->errorCount,
          'warnings' => $this->report->warningCount,
          'issue_types' => $this->report->issueTypeCount(),
-         'new_issue_types' => $this->report->newIssueTypeCount(),
          'analysis_cost_usd' => $this->report->analysisCostUsd,
          'issues' => array_map(fn ($issue): array => [
             'type' => $issue->group->title(),
             'count' => $issue->group->count(),
-            'is_new' => $issue->isNew,
             'urgency' => $issue->assessment?->urgency->value,
             'category' => $issue->assessment?->category->value,
             'title' => $issue->assessment?->title,

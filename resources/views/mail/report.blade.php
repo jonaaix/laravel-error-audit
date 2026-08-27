@@ -18,9 +18,9 @@ h1, h2, h3, .audit-title, .audit-card-title, .audit-card-count, .header a { colo
 .audit-badge-queue { background-color: #1e1b4b !important; border-color: #4338ca !important; color: #c7d2fe !important; }
 .audit-channel-divider { background-color: #3f3f46 !important; }
 .audit-channel-divider-queue { background-color: #3730a3 !important; }
-.audit-summary-meta, .audit-summary-delta { color: #d4d4d8 !important; }
+.audit-summary-meta { color: #d4d4d8 !important; }
 .audit-summary { background-color: #3f3f46 !important; }
-.audit-period, .audit-summary-footnote, .audit-card-origin, .audit-card-foot-meta, .subcopy p { color: #a1a1aa !important; }
+.audit-period, .audit-card-origin, .audit-card-foot-meta, .subcopy p { color: #a1a1aa !important; }
 .panel-content { background-color: #3f3f46 !important; }
 .subcopy { border-color: #3f3f46 !important; }
 }

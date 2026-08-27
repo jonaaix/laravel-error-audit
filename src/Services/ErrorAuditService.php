@@ -46,22 +46,12 @@ class ErrorAuditService
          count($collected->groups),
       ));
 
-      $progress->phase('Reading the preceding period for the change rates');
-      $previous = $this->previousPeriod($since, $until);
-      $progress->detail(sprintf(
-         'previously %s errors and %s warnings → %d issue types',
-         number_format($previous?->errorCount ?? 0),
-         number_format($previous?->warningCount ?? 0),
-         $previous !== null ? count($previous->groups) : 0,
-      ));
-
       $progress->phase('Analysing issues');
       $analysis = $this->analyzer->analyse(
          $collected->groupsByFrequency(),
          $this->describePeriod($since, $until),
          $refresh,
          $progress,
-         $previous?->groups ?? [],
       );
 
       if ($analysis->inputTokens > 0) {
@@ -86,8 +76,6 @@ class ErrorAuditService
          channels: $collected->channels,
          errorCount: $collected->errorCount,
          warningCount: $collected->warningCount,
-         previousErrorCount: $previous?->errorCount,
-         previousWarningCount: $previous?->warningCount,
          analysedIssueCount: $analysis->analysedCount,
          analysisCostUsd: $analysis->costUsd,
          analysisModel: $analysis->model,
@@ -96,28 +84,6 @@ class ErrorAuditService
          analysisInputTokens: $analysis->inputTokens,
          analysisMaxInputTokens: $analysis->maxInputTokens,
       );
-   }
-
-   /**
-    * Collect the immediately preceding window of the same length, so every
-    * delta — totals, per-issue counts, "new" — compares like with like.
-    * Reading it fresh from the logs on every run is what makes the report a
-    * pure function of the window: the same period always yields the same
-    * report.
-    *
-    * Carbon returns a signed difference, so the earlier moment has to be the
-    * receiver — the other way round every window measures negative and the
-    * guard below swallows the whole comparison.
-    */
-   private function previousPeriod(Carbon $since, Carbon $until): ?CollectedLogs
-   {
-      $length = $since->diffInSeconds($until);
-
-      if ($length <= 0) {
-         return null;
-      }
-
-      return $this->collect($since->copy()->subSeconds((int) $length), $since->copy()->subSecond());
    }
 
    public function collect(Carbon $since, Carbon $until): CollectedLogs
