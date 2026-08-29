@@ -48,11 +48,15 @@ class PreviewErrorAuditController
          $this->cache->forget($key);
       }
 
-      $report = $this->cache->remember(
-         $key,
-         now()->addHours(6),
-         fn (): AuditReport => $service->generate($since, $until, $request->boolean('refresh')),
-      );
+      $report = $this->cache->get($key);
+
+      // Not remember(): an entry written before a deploy can come back as an
+      // incomplete class, and a stale preview must not become a 500.
+      if (! $report instanceof AuditReport) {
+         $report = $service->generate($since, $until, $request->boolean('refresh'));
+
+         $this->cache->put($key, $report, now()->addHours(6));
+      }
 
       return (new ErrorAuditMail($report))->render();
    }

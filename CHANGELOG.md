@@ -2,6 +2,15 @@
 
 All notable changes to `aaix/laravel-error-audit` are documented here.
 
+## [Unreleased]
+
+### Fixed
+
+- The preview no longer dies on a cached report it cannot load. An entry
+  written before a deploy comes back as an incomplete class and reached
+  `ErrorAuditMail` as a `TypeError`; it now counts as a cache miss and the
+  report is rebuilt.
+
 ## [1.9.0] - 2026-08-27
 
 ### Removed
